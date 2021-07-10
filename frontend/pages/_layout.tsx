@@ -44,25 +44,15 @@ const Layout = ({ children, navHeight }: Props) => {
           </button>
           <div className="collapse navbar-collapse " id="navbarNav">
             <ul className="navbar-nav">
-              <li className="nav-item active">
-                <Link href="/" passHref>
-                  <a className="nav-link" href="#">
-                    Home
-                  </a>
-                </Link>
-              </li>
+              <li className="nav-item active"></li>
               <li className="nav-item">
-                <Link href="/AboutMe" passHref>
-                  <a className="nav-link" href="#">
-                    Sobre mim
-                  </a>
-                </Link>
+                <a className="nav-link" href="#about-me">
+                  Sobre mim
+                </a>
               </li>
               <li className="nav-item">
                 <Link href="/" passHref>
-                  <a className="nav-link" href="#">
-                    Currículo
-                  </a>
+                  <a className="nav-link">Currículo</a>
                 </Link>
               </li>
               <li className="nav-item">

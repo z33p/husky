@@ -1,3 +1,5 @@
+import Section from "./components/_section";
+
 export default function AboutMe() {
   const textStyle: React.CSSProperties = {
     fontSize: 1.3 + "rem",
@@ -5,9 +7,8 @@ export default function AboutMe() {
   };
 
   return (
-    <section id="about-me" className="bg-white p-4 mx-md-5">
-      <h1 className="my-4">Sobre mim</h1>
-      <div className="py-4 text-justify" style={textStyle}>
+    <Section id="about-me" title="Sobre mim">
+      <div className="text-justify" style={textStyle}>
         <p>
           Ob-La-Di, Ob-La-Da, meu nome é Raphael sou desenvolvedor de software e
           atualmente investidor amador.
@@ -32,6 +33,6 @@ export default function AboutMe() {
           bem-vinda {";)"}
         </p>
       </div>
-    </section>
+    </Section>
   );
 }

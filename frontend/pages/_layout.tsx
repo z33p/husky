@@ -4,7 +4,7 @@ import Link from "next/link";
 import Footer from "./_footer";
 
 interface Props {
-  navHeight: string | undefined;
+  navHeight?: string | undefined;
   children: React.ReactNode;
 }
 

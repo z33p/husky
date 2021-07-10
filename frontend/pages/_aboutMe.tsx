@@ -10,8 +10,11 @@ export default function AboutMe() {
     <Section id="about-me" title="Sobre mim">
       <div className="text-justify" style={textStyle}>
         <p>
-          Ob-La-Di, Ob-La-Da, meu nome é Raphael sou desenvolvedor de software e
-          atualmente investidor amador.
+          Ob-La-Di, Ob-La-Da, meu nome é Raphael sou desenvolvedor de software
+          full stack com experiência profissional com .NET Framework, React e
+          Django. Além de me aventurar no desenvolvimento mobile durante meu
+          tempo livre utilizando Flutter nos meus projetos pessoais. Vale
+          mencionar esse meu site pessoal feito com Next.js
         </p>
         <p>
           Sou apaixonado por lógica e resolver problemas, desse modo, comecei

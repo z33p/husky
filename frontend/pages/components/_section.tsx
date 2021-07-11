@@ -3,13 +3,14 @@ import React from "react";
 interface Props {
   id?: string;
   className?: string;
+  style?: React.CSSProperties;
   title: string;
   dark?: boolean;
   applyDivider?: boolean;
   children: React.ReactNode;
 }
 
-export default function Section({ id, title, children, dark, applyDivider: divide }: Props) {
+export default function Section({ id, title, className, style, children, dark, applyDivider }: Props) {
   let backgroundClass: string;
   let textColorClass: string;
 
@@ -21,11 +22,11 @@ export default function Section({ id, title, children, dark, applyDivider: divid
     textColorClass = "text-dark";
   }
 
-  const sectionPadding = "px-4 py-md-2 px-md-5";
+  const sectionPadding = "px-3 px-md-4 py-md-2";
 
   return (
     <React.Fragment>
-      {divide ? (
+      {applyDivider ? (
         <div className={sectionPadding}>
           <hr />
         </div>
@@ -33,7 +34,8 @@ export default function Section({ id, title, children, dark, applyDivider: divid
 
       <section
         id={id}
-        className={`${backgroundClass} ${textColorClass} ${sectionPadding}`}
+        className={`${className} ${backgroundClass} ${textColorClass} ${sectionPadding}`}
+        style={style}
       >
         <h1 className="my-4">{title}</h1>
         <div className="pt-2 pt-md-3">{children}</div>

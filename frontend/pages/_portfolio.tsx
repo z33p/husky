@@ -22,15 +22,13 @@ export default function Portfolio() {
               description={repository.description}
               languages={languagens}
               url={repository.url}
-              className={
-                "col-md-4 pb-4 px-24 " + (index < 3 ? "pb-md-4" : "pb-md-0")
-              }
+              className={`col-12 col-md-4 col-lg-3 pb-4 ${index < 3 ? "pb-md-4" : "pb-md-0"}`}
             />
           );
         })}
       </div>
-      <div className="d-flex justify-content-end">
-        <a href="https://github.com/z33p" target="_blank" rel="noreferrer">
+      <div className="d-flex justify-content-end p-3">
+        <a className="d-block" href="https://github.com/z33p" target="_blank" rel="noreferrer">
           Ver mais
         </a>
       </div>
@@ -59,14 +57,14 @@ function CardRepository({
   url,
 }: CardRepositoryProps) {
   return (
-    <div className={className + " "}>
-      <div className="card shadow" style={{ width: 22 + "rem" }}>
+    <div className={`${className} d-flex justify-content-center align-items-baseline`}>
+      <div className="card shadow" style={{ width: 90 + "%" }}>
         <div className="card-img-top"></div>
         <div className="card-body">
           <h5 className="card-title">{name}</h5>
           <p className="card-text">{description}</p>
 
-          <p className="row">
+          <div className="row">
             <div className="col-6">
               {languages.map((language, index) => (
                 <h6 key={index} className="mb-2 text-muted d-flex">
@@ -95,7 +93,7 @@ function CardRepository({
                 </a>
               </div>
             </div>
-          </p>
+          </div>
         </div>
       </div>
     </div>

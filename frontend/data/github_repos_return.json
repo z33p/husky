@@ -1,0 +1,121 @@
+{
+  "data": {
+    "user": {
+      "pinnedItems": {
+        "totalCount": 6,
+        "edges": [
+          {
+            "node": {
+              "name": "AuthServer",
+              "description": "Simple JWT authentication server who implements ASP.NET Core Identity. It serves both access tokens and refresh tokens, besides to implementing role-permitted routes.",
+              "languages": {
+                "nodes": [
+                  {
+                    "name": "C#",
+                    "color": "#178600"
+                  },
+                  {
+                    "name": "Dockerfile",
+                    "color": "#384d54"
+                  }
+                ]
+              },
+              "url": "https://github.com/z33p/AuthServer"
+            }
+          },
+          {
+            "node": {
+              "name": "Avonale",
+              "description": "Challenge taken to join the Avonale company. This project consumes the Github API and through a visual interface it is possible to list, bookmark and see details of the repositories. Made in 3 days, the result is very nice.",
+              "languages": {
+                "nodes": [
+                  {
+                    "name": "TypeScript",
+                    "color": "#2b7489"
+                  },
+                  {
+                    "name": "C#",
+                    "color": "#178600"
+                  }
+                ]
+              },
+              "url": "https://github.com/z33p/Avonale"
+            }
+          },
+          {
+            "node": {
+              "name": "Husky",
+              "description": "Here is my personal website made with Next.js, React and Typescript. Hosted and served by Vercel..",
+              "languages": {
+                "nodes": [
+                  {
+                    "name": "C#",
+                    "color": "#178600"
+                  }
+                ]
+              },
+              "url": "https://github.com/z33p/one-study-official"
+            }
+          },
+          {
+            "node": {
+              "name": "One Study",
+              "description": "One Study is intended to be a study platform, but is now in the MVP phase consisting of a Flashcards application with cloud storage.",
+              "languages": {
+                "nodes": [
+                  {
+                    "name": "Dart",
+                    "color": "#00B4AB"
+                  },
+                  {
+                    "name": "HTML",
+                    "color": "#e34c26"
+                  }
+                ]
+              },
+              "url": "https://github.com/z33p/one-study-mobile"
+            }
+          },
+          {
+            "node": {
+              "name": "Turtle Notes",
+              "description": "My first mobile app build with Flutter and Redux. It's a simple note app with reminder notifications.",
+              "languages": {
+                "nodes": [
+                  {
+                    "name": "Dart",
+                    "color": "#00B4AB"
+                  },
+                  {
+                    "name": "Kotlin",
+                    "color": "#A97BFF"
+                  }
+                ]
+              },
+              "url": "https://github.com/z33p/turtle_notes"
+            }
+          },
+          {
+            "node": {
+              "name": "TODO's Server",
+              "description": "REST web server using Node, Sequelize and Postgres running in Docker. It's a to-do app made for learning purposes.",
+              "languages": {
+                "nodes": [
+                  {
+                    "name": "JavaScript",
+                    "color": "#f1e05a"
+                  },
+                  {
+                    "name": "Dockerfile",
+                    "color": "#384d54"
+                  }
+                ]
+              },
+              "url": "https://github.com/z33p/todos_server"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -9,7 +9,7 @@ interface Props {
 }
 
 const Layout = ({ children, navHeight }: Props) => {
-  navHeight ??= 3.5 + "rem";
+  navHeight ??= 3 + "rem";
 
   const siteDescription = [
     "Meu nome é Raphael Fellipe e esse é meu site pessoal onde é possível ter um bom overview sobre quem sou e meus projetos.",
@@ -51,23 +51,51 @@ const Layout = ({ children, navHeight }: Props) => {
             <ul className="navbar-nav">
               <li className="nav-item active"></li>
               <li className="nav-item">
-                <a className="nav-link" href="#about-me">
+                <a
+                  className="nav-link"
+                  href="#about-me"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("about-me")?.scrollIntoView(true);
+                  }}
+                >
                   Sobre mim
                 </a>
               </li>
               <li className="nav-item">
-                <a href="#projects" className="nav-link">
-                  Projetos
+                <a
+                  href="#portfolio"
+                  className="nav-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("portfolio")?.scrollIntoView(true);
+                  }}
+                >
+                  Portfólio
                 </a>
               </li>
               <li className="nav-item">
-                <a href="#curriculum" className="nav-link">
-                  Currículo
-                </a>
-              </li>
-              <li className="nav-item">
-                <a href="#contact" className="nav-link">
+                <a
+                  href="#contact"
+                  className="nav-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("contact")?.scrollIntoView(true);
+                  }}
+                >
                   Contato
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  href="#curriculum"
+                  className="nav-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("curriculum")?.scrollIntoView(true);
+                  }}
+                >
+                  Currículo
                 </a>
               </li>
             </ul>

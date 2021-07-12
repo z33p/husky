@@ -22,13 +22,15 @@ export default function Portfolio() {
               description={repository.description}
               languages={languagens}
               url={repository.url}
-              className={`col-12 col-md-4 col-lg-3 pb-4 ${index < 3 ? "pb-md-4" : "pb-md-0"}`}
+              className={`col-12 col-md-4 pb-4 ${
+                index < 3 ? "pb-md-4" : "pb-md-0"
+              }`}
             />
           );
         })}
       </div>
       <div className="d-flex justify-content-end p-3">
-        <a className="d-block" href="https://github.com/z33p" target="_blank" rel="noreferrer">
+        <a className="d-inline-block" href="https://github.com/z33p" target="_blank" rel="noreferrer">
           Ver mais
         </a>
       </div>

@@ -105,7 +105,7 @@ const Layout = ({ children, navHeight }: Props) => {
 
       <main>{children}</main>
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

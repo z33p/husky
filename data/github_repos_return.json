@@ -49,12 +49,12 @@
               "languages": {
                 "nodes": [
                   {
-                    "name": "C#",
-                    "color": "#178600"
+                    "name": "TypeScript",
+                    "color": "#2b7489"
                   }
                 ]
               },
-              "url": "https://github.com/z33p/one-study-official"
+              "url": "https://github.com/z33p/husky"
             }
           },
           {

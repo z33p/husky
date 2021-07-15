@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Footer from "./_footer";
+import ScrollBackToTop from "./components/ScrollBackToTopBtn";
 
 interface Props {
   navHeight?: string | undefined;
@@ -106,6 +107,8 @@ const Layout = ({ children, navHeight }: Props) => {
       <main>{children}</main>
 
       <Footer />
+
+      <ScrollBackToTop />
     </div>
   );
 };

@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-
+import React from "react";
 interface Props {
   style: React.CSSProperties;
 }
 
-interface Sizes {
-  width: number;
-  height: number;
-}
 
 export default function Banner({ style }: Props) {
+  const imgUrl = "me_4_ws.jpg";
+
+  const bannerImgStyle = {
+    backgroundImage: `url(${imgUrl})`,
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+  }
 
   return (
     <section
@@ -28,22 +30,16 @@ export default function Banner({ style }: Props) {
         className="row align-items-center"
       >
         <div className="text-center align-middle text-white">
-
-            <div className="">
-              <h1 className="display-3">RAPHAEL FELLIPE</h1>
-              <p className="h4">
-                .NET Developer {"&&"} MSSQL | Flutter {"&&"} React Enthusiast
-              </p>
-            </div>
+          <div className="pb-5">
+            <h1 className="display-3">RAPHAEL FELLIPE</h1>
+            <p className="h4">
+              .NET Developer {"&&"} MSSQL | Flutter {"&&"} React Enthusiast
+            </p>
+          </div>
         </div>
       </div>
 
-        <Image
-          src="/me_4_ws.jpg"
-          alt="me"
-          quality="100"
-          layout="fill"
-        />
+      <div style={bannerImgStyle} className="h-100 w-100"></div>
     </section>
   );
 }

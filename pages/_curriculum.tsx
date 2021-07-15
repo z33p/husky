@@ -16,7 +16,7 @@ export default function Curriculum() {
               className="btn btn-outline-primary"
               rel="noreferrer"
             >
-              Download PDF
+              Abrir PDF
             </a>
           </div>
         </div>

@@ -31,9 +31,9 @@ const Layout = ({ children, navHeight }: Props) => {
         className="navbar navbar-expand-lg justify-content-between navbar-dark bg-dark px-3"
       >
         <h2 className="">
-          <a className="navbar-brand" href="#">
+          <span className="navbar-brand" style={{ cursor: "pointer" }}>
             Z33P
-          </a>
+          </span>
         </h2>
 
         <div className="h-100">

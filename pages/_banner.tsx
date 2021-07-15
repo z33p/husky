@@ -11,25 +11,6 @@ interface Sizes {
 }
 
 export default function Banner({ style }: Props) {
-  const [sizes, setSizes] = useState<Sizes>();
-  const bannerId = "banner";
-
-  useEffect(() => {
-    const banner = document.getElementById(bannerId)?.getBoundingClientRect();
-
-    if (banner) {
-      let { width, height } = banner;
-
-      if (width > height) {
-        width = height;
-      }
-
-      setSizes({
-        width: width,
-        height: height,
-      });
-    }
-  }, []);
 
   return (
     <section
@@ -37,7 +18,6 @@ export default function Banner({ style }: Props) {
       style={style}
     >
       <div
-        id={bannerId}
         style={{
           position: "absolute",
           backgroundColor: "rgba(0, 0, 0, 0.45)",
@@ -48,28 +28,22 @@ export default function Banner({ style }: Props) {
         className="row align-items-center"
       >
         <div className="text-center align-middle text-white">
-          {!sizes ? (
-            <div className="spinner-border text-info" />
-          ) : (
+
             <div className="">
               <h1 className="display-3">RAPHAEL FELLIPE</h1>
               <p className="h4">
                 .NET Developer {"&&"} MSSQL | Flutter {"&&"} React Enthusiast
               </p>
             </div>
-          )}
         </div>
       </div>
 
-      {!sizes ? undefined : (
         <Image
-          src="/me.jpg"
+          src="/me_4_ws.jpg"
           alt="me"
-          width={sizes.width}
-          height={sizes.height}
           quality="100"
+          layout="fill"
         />
-      )}
     </section>
   );
 }

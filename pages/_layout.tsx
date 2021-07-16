@@ -1,8 +1,8 @@
 import React from "react";
 import Head from "next/head";
-import Link from "next/link";
 import Footer from "./_footer";
 import ScrollBackToTop from "./components/ScrollBackToTopBtn";
+import { GA_TRACKING_ID } from "../lib/gtag";
 
 interface Props {
   navHeight?: string | undefined;
@@ -23,6 +23,24 @@ const Layout = ({ children, navHeight }: Props) => {
         <title>z33p</title>
         <meta name="description" content={siteDescription.join(" ")} />
         <link rel="icon" href="/favicon.ico" />
+
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+        />
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+          }}
+        />
       </Head>
 
       <nav

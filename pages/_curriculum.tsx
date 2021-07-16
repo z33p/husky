@@ -1,5 +1,6 @@
 import React from "react";
 import Section from "./components/_section";
+import * as gtag from "../lib/gtag"
 
 export default function Curriculum() {
   return (
@@ -15,6 +16,14 @@ export default function Curriculum() {
               target="_blank"
               className="btn btn-outline-primary"
               rel="noreferrer"
+              onClick={() => {
+                gtag.event({
+                  action: "curriculum_download",
+                  category: "file",
+                  label: "Curriculum downloaded",
+                  value: "Opening curriculum"
+                })
+              }}
             >
               Abrir PDF
             </a>

@@ -23,12 +23,12 @@ interface Language {
     url,
   }: CardRepositoryProps) {
     return (
-      <div className={`${className} d-flex justify-content-center align-items-baseline`}>
+      <div className={`${className} d-flex justify-content-center align-items-center`}>
         <div className="card shadow" style={{ width: 90 + "%" }}>
           <div className="card-img-top"></div>
           <div className="card-body">
             <h5 className="card-title">{name}</h5>
-            <p className="card-text">{description}</p>
+            <p className="card-text" style={{ textAlign: "justify" }}>{description}</p>
   
             <div className="row">
               <div className="col-6">
@@ -38,8 +38,8 @@ interface Language {
                       icon={faCircle}
                       className="pt-1"
                       style={{
-                        width: 1.1 + "em",
-                        height: 1.1 + "em",
+                        width: 1.1 + "rem",
+                        height: 1.1 + "rem",
                         color: language.color,
                       }}
                     />

@@ -1,4 +1,4 @@
-import githubResposReturn from "../../data/github_repos_return.json";
+import githubResposReturn from "../../lib/data/github_repos_return.json";
 import React from "react";
 import Section from "../section";
 import CardRepository from "./card_repository";
@@ -30,7 +30,12 @@ export default function Portfolio() {
         })}
       </div>
       <div className="d-flex justify-content-end p-3">
-        <a className="d-inline-block" href="https://github.com/z33p" target="_blank" rel="noreferrer">
+        <a
+          className="d-inline-block"
+          href="https://github.com/z33p"
+          target="_blank"
+          rel="noreferrer"
+        >
           Ver mais
         </a>
       </div>

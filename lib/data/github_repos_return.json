@@ -7,7 +7,7 @@
           {
             "node": {
               "name": "AuthServer",
-              "description": "Simple JWT authentication server who implements ASP.NET Core Identity. It serves both access tokens and refresh tokens, besides to implementing role-permitted routes.",
+              "description": "Simples servidor de autenticação JWT que implementa .NET Core Identity. Através do servidor é possível obter tanto tokens de acesso quanto refresh tokens, além de possuir rotas que dependem de roles para serem acessadas",
               "languages": {
                 "nodes": [
                   {
@@ -26,7 +26,7 @@
           {
             "node": {
               "name": "Avonale",
-              "description": "Challenge taken to join the Avonale company. This project consumes the Github API and through a visual interface it is possible to list, bookmark and see details of the repositories. Made in 3 days, the result is very nice.",
+              "description": "Desafio realizado para se juntar a empresa Avonale. Esse projeto consome a API do GitHub e através de uma interface visual é possível listar, marcar e ver detalhes dos repositórios. Feito em 3 dias, o resultado é muito bom.",
               "languages": {
                 "nodes": [
                   {
@@ -44,23 +44,8 @@
           },
           {
             "node": {
-              "name": "Husky",
-              "description": "Here is my personal website made with Next.js, React and Typescript. Hosted and served by Vercel..",
-              "languages": {
-                "nodes": [
-                  {
-                    "name": "TypeScript",
-                    "color": "#2b7489"
-                  }
-                ]
-              },
-              "url": "https://github.com/z33p/husky"
-            }
-          },
-          {
-            "node": {
               "name": "One Study",
-              "description": "One Study is intended to be a study platform, but is now in the MVP phase consisting of a Flashcards application with cloud storage.",
+              "description": "O objetivo principal do One Study é ser uma plataforma de estudos, mas no momento está na fase de MVP na qual consiste numa aplicação de flashcards com armazenamento em nuvem.",
               "languages": {
                 "nodes": [
                   {
@@ -78,8 +63,27 @@
           },
           {
             "node": {
+              "name": "TODO's Server",
+              "description": "Servidor web REST feito com Node.js, Sequelize e Postgres. É possível executar a aplicação via Docker. Tratasse de um app de TODO feito com fins de aprendizagem.",
+              "languages": {
+                "nodes": [
+                  {
+                    "name": "JavaScript",
+                    "color": "#f1e05a"
+                  },
+                  {
+                    "name": "Dockerfile",
+                    "color": "#384d54"
+                  }
+                ]
+              },
+              "url": "https://github.com/z33p/todos_server"
+            }
+          },
+          {
+            "node": {
               "name": "Turtle Notes",
-              "description": "My first mobile app build with Flutter and Redux. It's a simple note app with reminder notifications.",
+              "description": "Meu primeiro aplicativo mobile feito com Flutter e Redux. É um aplicativo de notas simples com notificações de lembrete.",
               "languages": {
                 "nodes": [
                   {
@@ -97,21 +101,17 @@
           },
           {
             "node": {
-              "name": "TODO's Server",
-              "description": "REST web server using Node, Sequelize and Postgres running in Docker. It's a to-do app made for learning purposes.",
+              "name": "Husky",
+              "description": "Aqui está meu site pessoal feito com Next.js, React, Typescript e hospedado pela Vercel.",
               "languages": {
                 "nodes": [
                   {
-                    "name": "JavaScript",
-                    "color": "#f1e05a"
-                  },
-                  {
-                    "name": "Dockerfile",
-                    "color": "#384d54"
+                    "name": "TypeScript",
+                    "color": "#2b7489"
                   }
                 ]
               },
-              "url": "https://github.com/z33p/todos_server"
+              "url": "https://github.com/z33p/husky"
             }
           }
         ]

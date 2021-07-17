@@ -1,6 +1,6 @@
 import React from "react";
 import GoogleAnalyticsService from "../lib/services/google_analytics/google_analytics_service";
-import Section from "./components/_section";
+import Section from "./section";
 
 export default function Curriculum() {
   const googleAnalyticsService = new GoogleAnalyticsService();

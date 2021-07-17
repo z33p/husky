@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import AppContext from "../../context/app_context";
 import { scrollBackTop } from "../scroll_back_top_btn";
+import { AppContext } from "../../pages/_app";
 import NavLink from "./nav_link";
 
 export default function Nav() {

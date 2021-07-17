@@ -1,9 +1,17 @@
 import "../styles/custom.scss";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/dist/client/router";
-import { useEffect } from "react";
+import { MutableRefObject, useEffect } from "react";
 import GoogleAnalyticsService from "../lib/services/google_analytics/google_analytics_service";
-import AppContext, { initialValue } from "./context/app_context";
+import React from "react";
+
+interface AppContext {
+  refNav?: MutableRefObject<HTMLDivElement | null>;
+}
+
+export const initialValue: AppContext = {};
+
+export const AppContext = React.createContext<AppContext>(initialValue);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();

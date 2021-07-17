@@ -1,11 +1,12 @@
-import Section from "./components/_section";
+import React from "react";
+import Section from "./section";
+
+const textStyle: React.CSSProperties = {
+  fontSize: 1.3 + "rem",
+  textAlign: "justify",
+};
 
 export default function AboutMe() {
-  const textStyle: React.CSSProperties = {
-    fontSize: 1.3 + "rem",
-    textAlign: "justify",
-  };
-
   return (
     <Section id="about-me" title="Sobre mim">
       <div className="text-justify" style={textStyle}>

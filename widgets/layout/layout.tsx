@@ -1,9 +1,9 @@
 import React from "react";
 import Head from "next/head";
-import Footer from "../../_footer";
 import ScrollBackTopBtn from "../scroll_back_top_btn";
-import GoogleAnalyticsService from "../../../lib/services/google_analytics/google_analytics_service";
 import Nav from "./nav";
+import GoogleAnalyticsService from "../../lib/services/google_analytics/google_analytics_service";
+import Footer from "./footer";
 
 interface Props {
   children: React.ReactNode;

@@ -7,8 +7,8 @@ import {
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import Section from "./components/_section";
-import CardContact from "./components/contact/_cardContact";
+import Section from "../section";
+import CardContact from "./card_contact";
 
 export default function Contact() {
   return (

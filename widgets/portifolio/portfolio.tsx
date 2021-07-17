@@ -1,7 +1,7 @@
-import Section from "./components/_section";
-import githubResposReturn from "../data/github_repos_return.json";
+import githubResposReturn from "../../data/github_repos_return.json";
 import React from "react";
-import CardRepository from "./components/portifolio/_cardRepository";
+import Section from "../section";
+import CardRepository from "./card_repository";
 
 export default function Portfolio() {
   return (

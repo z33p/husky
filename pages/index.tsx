@@ -1,10 +1,10 @@
 import React from "react";
-import Layout from "./components/layout/layout";
-import AboutMe from "./_aboutMe";
-import Banner from "./_banner";
-import Portfolio from "./_portfolio";
-import Contact from "./_contact";
-import Curriculum from "./_curriculum";
+import AboutMe from "../widgets/about_me";
+import Contact from "../widgets/contact/contact";
+import Curriculum from "../widgets/curriculum";
+import Banner from "../widgets/layout/banner";
+import Layout from "../widgets/layout/layout";
+import Portfolio from "../widgets/portifolio/portfolio";
 
 export default function index() {
   return (

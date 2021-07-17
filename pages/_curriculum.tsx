@@ -1,8 +1,10 @@
 import React from "react";
+import GoogleAnalyticsService from "../lib/services/google_analytics/google_analytics_service";
 import Section from "./components/_section";
-import * as gtag from "../lib/gtag"
 
 export default function Curriculum() {
+  const googleAnalyticsService = new GoogleAnalyticsService();
+
   return (
     <Section id="curriculum" title="Currículo" applyDivider>
       <div className="row justify-content-center pb-5">
@@ -16,14 +18,7 @@ export default function Curriculum() {
               target="_blank"
               className="btn btn-outline-primary"
               rel="noreferrer"
-              onClick={() => {
-                gtag.event({
-                  action: "curriculum_download",
-                  category: "file",
-                  label: "Curriculum downloaded",
-                  value: "Opening curriculum"
-                })
-              }}
+              onClick={() => googleAnalyticsService.triggerDownloadCurriculum()}
             >
               Abrir PDF
             </a>

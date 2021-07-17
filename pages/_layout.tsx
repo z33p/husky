@@ -2,8 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Footer from "./_footer";
 import ScrollBackToTop from "./components/ScrollBackToTopBtn";
-import { GA_TRACKING_ID } from "../lib/gtag";
-
+import GoogleAnalyticsService from "../lib/services/google_analytics/google_analytics_service";
 interface Props {
   navHeight?: string | undefined;
   children: React.ReactNode;
@@ -26,7 +25,7 @@ const Layout = ({ children, navHeight }: Props) => {
 
         <script
           async
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          src={`https://www.googletagmanager.com/gtag/js?id=${GoogleAnalyticsService.GA_TRACKING_ID}`}
         />
 
         <script
@@ -35,7 +34,7 @@ const Layout = ({ children, navHeight }: Props) => {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${GA_TRACKING_ID}', {
+            gtag('config', '${GoogleAnalyticsService.GA_TRACKING_ID}', {
               page_path: window.location.pathname,
             });
           `,

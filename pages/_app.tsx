@@ -1,14 +1,15 @@
 import "../styles/custom.scss";
 import type { AppProps } from "next/app";
-import * as gtag from "../lib/gtag";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
+import GoogleAnalyticsService from "../lib/services/google_analytics/google_analytics_service";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      gtag.pageview(url);
+      GoogleAnalyticsService.pageview(url);
     };
 
     router.events.on("routeChangeComplete", handleRouteChange);

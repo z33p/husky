@@ -1,0 +1,1 @@
+export type CustomEvents = Gtag.EventNames | "curriculum_download";

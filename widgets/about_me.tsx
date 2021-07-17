@@ -2,7 +2,7 @@ import React from "react";
 import Section from "./section";
 
 const textStyle: React.CSSProperties = {
-  fontSize: 1.3 + "rem",
+  fontSize: 1.25 + "rem",
   textAlign: "justify",
 };
 

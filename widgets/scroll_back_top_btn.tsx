@@ -36,7 +36,7 @@ export default function ScrollBackTopBtn() {
     outline: "none",
     cursor: "pointer",
     fontSize: 1 + "rem",
-    padding: 1 + "em"
+    padding: .9 + "em"
   };
 
   return (

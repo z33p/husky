@@ -1,12 +1,16 @@
-import { faArrowAltCircleUp } from "@fortawesome/free-regular-svg-icons";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CSSProperties, useEffect, useState } from "react";
 
-export default function ScrollBackToTop() {
+export function scrollBackTop() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+};
+
+export default function ScrollBackTopBtn() {
   const [isHidden, setIsHidden] = useState(true);
 
-  const scrollFunction = () => {
+  const showBtnWhenHitScreenLimit = () => {
     const limitToAppear = 20;
 
     setIsHidden(
@@ -18,7 +22,9 @@ export default function ScrollBackToTop() {
   };
 
   useEffect(() => {
-    window.onscroll = scrollFunction;
+    window.addEventListener("scroll", () => {
+      showBtnWhenHitScreenLimit();
+    });
   }, []);
 
   if (isHidden) return null;
@@ -26,26 +32,21 @@ export default function ScrollBackToTop() {
   const style: CSSProperties = {
     bottom: 20 + "px",
     right: 30 + "px",
-    zIndex: 1030,
     border: "none",
     outline: "none",
     cursor: "pointer",
     fontSize: 1 + "rem",
-  };
-
-  const goBackTop = () => {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+    padding: 1 + "em"
   };
 
   return (
     <button
-      onClick={goBackTop}
+      onClick={scrollBackTop}
       style={style}
       title="Go to top"
-      className="p-3 d-block position-fixed bg-primary text-white rounded-circle"
+      className="d-block position-fixed bg-primary text-white rounded-circle"
     >
-      <FontAwesomeIcon icon={faArrowUp} style={{ width: 1.25 + "rem" }} />
+      <FontAwesomeIcon icon={faArrowUp} style={{ width: 1.2 + "rem" }} />
     </button>
   );
 }

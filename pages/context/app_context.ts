@@ -1,6 +1,6 @@
-import React from "react";
-
+import React, { MutableRefObject } from "react";
 export interface AppContext {
+    refNav?: MutableRefObject<HTMLDivElement | null>;
 }
 
 export const initialValue: AppContext = {};

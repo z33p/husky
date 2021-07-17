@@ -1,10 +1,6 @@
 import React from "react";
-interface Props {
-  style: React.CSSProperties;
-}
 
-
-export default function Banner({ style }: Props) {
+export default function Banner() {
   const imgUrl = "me_4_ws.jpg";
 
   const bannerImgStyle = {
@@ -17,7 +13,7 @@ export default function Banner({ style }: Props) {
   return (
     <section
       className="d-flex justify-content-center align-items-center bg-primary position-relative"
-      style={style}
+      style={{ height: 100 + "vh"}}
     >
       <div
         style={{

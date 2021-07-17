@@ -34,7 +34,7 @@ export default function Section({ id, title, className, style, children, dark, a
 
       <section
         id={id}
-        className={`${className} ${backgroundClass} ${textColorClass} ${sectionPadding}`}
+        className={`${className ?? ""} ${backgroundClass} ${textColorClass} ${sectionPadding}`}
         style={style}
       >
         <h1 className="my-4">{title}</h1>

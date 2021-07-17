@@ -10,7 +10,15 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function Section({ id, title, className, style, children, dark, applyDivider }: Props) {
+export default function Section({
+  id,
+  title,
+  className,
+  style,
+  children,
+  dark,
+  applyDivider,
+}: Props) {
   let backgroundClass: string;
   let textColorClass: string;
 
@@ -22,7 +30,7 @@ export default function Section({ id, title, className, style, children, dark, a
     textColorClass = "text-dark";
   }
 
-  const sectionPadding = "px-3 px-md-4 py-md-2";
+  const sectionPadding = "px-3 px-md-4 py-1";
 
   return (
     <React.Fragment>
@@ -34,10 +42,12 @@ export default function Section({ id, title, className, style, children, dark, a
 
       <section
         id={id}
-        className={`${className ?? ""} ${backgroundClass} ${textColorClass} ${sectionPadding}`}
+        className={`${
+          className ?? ""
+        } ${backgroundClass} ${textColorClass} ${sectionPadding}`}
         style={style}
       >
-        <h1 className="my-4">{title}</h1>
+        <h1 className="pt-4">{title}</h1>
         <div className="pt-2 pt-md-3">{children}</div>
       </section>
     </React.Fragment>

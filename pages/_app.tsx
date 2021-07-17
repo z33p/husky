@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import GoogleAnalyticsService from "../lib/services/google_analytics/google_analytics_service";
+import AppContext, { initialValue } from "./context/app_context";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -19,6 +20,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, [router.events]);
 
-  return <Component {...pageProps} />;
+  return (
+    <AppContext.Provider value={initialValue}>
+      <Component {...pageProps} />
+    </AppContext.Provider>
+  );
 }
 export default MyApp;

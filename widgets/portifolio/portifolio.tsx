@@ -22,9 +22,7 @@ export default function Portfolio() {
               description={repository.description}
               languages={languagens}
               url={repository.url}
-              className={`col-12 col-md-4 pb-4 ${
-                index < 3 ? "pb-md-4" : "pb-md-0"
-              }`}
+              className={`col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 py-2`}
             />
           );
         })}

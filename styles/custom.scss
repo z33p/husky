@@ -4,4 +4,34 @@ html {
 
 $primary: #22456b;
 
+$breakpoint-lg: 1280px;
+$breakpoint-xl: 1780px;
+$breakpoint-xxl: 2130px;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 868px,
+  lg: $breakpoint-lg,
+  xl: $breakpoint-xl,
+  xxl: 2130px,
+);
+
+.section {
+  max-width: 90%;
+  width: 100%;
+}
+
+@media (min-width: $breakpoint-xl) {
+  .section {
+    max-width: 80%;
+  }
+}
+
+@media (min-width: $breakpoint-xxl) {
+  .section {
+    max-width: 75%;
+  }
+}
+
 @import "../node_modules/bootstrap/scss/bootstrap";

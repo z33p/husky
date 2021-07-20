@@ -30,26 +30,28 @@ export default function Section({
     textColorClass = "text-dark";
   }
 
-  const sectionPadding = "px-3 px-md-4 py-1";
+  const sectionPadding = "py-1";
 
   return (
-    <React.Fragment>
-      {applyDivider ? (
-        <div className={sectionPadding}>
-          <hr />
-        </div>
-      ) : undefined}
+    <div className="d-flex justify-content-center">
+      <div className="section">
+        {applyDivider ? (
+          <div className={sectionPadding}>
+            <hr />
+          </div>
+        ) : undefined}
 
-      <section
-        id={id}
-        className={`${
-          className ?? ""
-        } ${backgroundClass} ${textColorClass} ${sectionPadding}`}
-        style={style}
-      >
-        <h1 className="pt-4">{title}</h1>
-        <div className="pt-2 pt-md-3">{children}</div>
-      </section>
-    </React.Fragment>
+        <section
+          id={id}
+          className={`${
+            className ?? ""
+          } ${backgroundClass} ${textColorClass} ${sectionPadding}`}
+          style={style}
+        >
+          <h1 className="pt-4">{title}</h1>
+          <div className="pt-2 pt-md-3">{children}</div>
+        </section>
+      </div>
+    </div>
   );
 }

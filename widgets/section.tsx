@@ -30,7 +30,7 @@ export default function Section({
     textColorClass = "text-dark";
   }
 
-  const sectionPadding = "py-1";
+  const sectionPadding = "my-1";
 
   return (
     <div className="d-flex justify-content-center">
@@ -48,7 +48,7 @@ export default function Section({
           } ${backgroundClass} ${textColorClass} ${sectionPadding}`}
           style={style}
         >
-          <h1 className="pt-4">{title}</h1>
+          <h1 className="pt-4 m-0">{title}</h1>
           <div className="pt-2 pt-md-3">{children}</div>
         </section>
       </div>

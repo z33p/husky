@@ -27,7 +27,7 @@ export default function AboutMe() {
           posição de desenvolvedor pleno ainda durante meu segundo ano na
           faculdade.
         </p>
-        <p>
+        <p className="m-0">
           Eu amo investimento e negócios o que me leva a almejar um dia ter a
           oportunidade de abrir minha própria empresa, ou vir a me tornar sócio
           da próxima big tech. Em vista disso, fui levado por minha aspiração a

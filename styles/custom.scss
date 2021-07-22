@@ -35,3 +35,7 @@ $grid-breakpoints: (
 }
 
 @import "../node_modules/bootstrap/scss/bootstrap";
+
+html, body, section > *, .section {
+  background-color: #e6e6e6;
+}

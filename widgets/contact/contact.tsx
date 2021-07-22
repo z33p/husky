@@ -14,7 +14,7 @@ export default function Contact() {
   return (
     <Section id="contact" title="Contato" className="mb-5" applyDivider>
       <div className="row justify-content-center">
-        <div className="pb-4 col-6 col-md-2">
+        <div className="mb-4 col-6 col-md-2">
           <div className="d-flex justify-content-center">
             <CardContact
               name="LinkedIn"
@@ -26,7 +26,7 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="pb-4 col-6 col-md-2">
+        <div className="mb-4 col-6 col-md-2">
           <div className="d-flex justify-content-center">
             <CardContact
               name="Instagram"
@@ -37,7 +37,7 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="pb-4 col-6 col-md-2">
+        <div className="mb-4 col-6 col-md-2">
           <div className="d-flex justify-content-center">
             <CardContact
               name="WhatsApp"
@@ -48,7 +48,7 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="pb-4 col-6 col-md-2">
+        <div className="mb-4 col-6 col-md-2">
           <div className="d-flex justify-content-center">
             <CardContact
               name="GitHub"

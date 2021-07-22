@@ -34,7 +34,7 @@ export default function CardRepository({
           <div className="row">
             <div className="col-6">
               {languages?.map((language, index) => (
-                <h6 key={index} className="mb-2 text-muted d-flex">
+                <h6 key={index} className="text-muted d-flex">
                   <FontAwesomeIcon
                     icon={faCircle}
                     className="pt-1"

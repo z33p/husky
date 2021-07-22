@@ -9,7 +9,7 @@ export default function Curriculum() {
     <Section id="curriculum" title="Currículo" applyDivider>
       <div className="row justify-content-center pb-5">
         <div
-          className="col-md-4 border"
+          className="bg-white col-md-4 border shadow"
           style={{ width: 20 + "em", height: 10 + "em" }}
         >
           <div className="w-100 h-100 d-flex justify-content-center align-items-center">

@@ -24,7 +24,7 @@ export default function CardContact({
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="text-dark text-decoration-none"
+      className="bg-white text-dark text-decoration-none"
       title={title}
       style={{ cursor: "pointer" }}
     >

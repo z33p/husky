@@ -1,5 +1,8 @@
+using Amazon.S3;
 using GithubSyncer.Contracts;
 using GithubSyncer.Contracts.Shared;
+using GithubSyncer.Handlers;
+using GithubSyncer.Helpers.Shared;
 using GithubSyncer.Services.Shared;
 using GitHubSyncer.Contracts;
 using GitHubSyncer.Services;
@@ -29,12 +32,17 @@ namespace GitHubSyncer
 
             // Singleton
             services.AddSingleton<IExternalRoutes, ExternalRoutes>();
+            services.AddSingleton<IS3Helper, S3Helper>();
 
             // Services
             services.AddScoped<IGitHubService, GitHubService>();
 
             // Controllers
             services.AddControllers();
+
+            // S3
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonS3>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

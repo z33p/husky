@@ -8,6 +8,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="6.0.3" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.1" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.1.19" />
     <PackageReference Include="GraphQL.Client" Version="3.2.4" />
     <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="3.2.4" />
   </ItemGroup>

@@ -21,6 +21,17 @@ namespace GithubSyncer.Handlers
             _s3 = s3;
         }
 
+        public async Task<string> GetFileContent(GetObjectResponse getObjectResponse)
+        {
+            var buffer = new byte[getObjectResponse.ResponseStream.Length];
+
+            await getObjectResponse.ResponseStream.ReadAsync(buffer);
+
+            var content = Encoding.UTF8.GetString(buffer);
+
+            return content;
+        }
+
         public async Task PutObjToS3AsJson(object obj, string key)
         {
             var json = JsonConvert.SerializeObject(obj);
@@ -33,7 +44,7 @@ namespace GithubSyncer.Handlers
                 ContentType = "application/json"
             };
 
-            var putResponse = await _s3.PutObjectAsync(s3File);
+            await _s3.PutObjectAsync(s3File);
         }
     }
 }

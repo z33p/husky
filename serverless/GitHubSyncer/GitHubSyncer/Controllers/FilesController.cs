@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Amazon.S3;
 using GithubSyncer.Contracts;
-using GithubSyncer.Contracts.External.GitHub.Responses;
+using GithubSyncer.Contracts.External.S3;
 using GithubSyncer.Services.Shared;
 using GitHubSyncer.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace GitHubSyncer.Controllers
 {
-    [Route(AppRoutes.Files)]
+    [Route(AppRoutes.FilesController.Root)]
     public class FilesController : ControllerBase
     {
         private readonly AppSettings _appSettings;
@@ -24,13 +24,12 @@ namespace GitHubSyncer.Controllers
         }
 
         [HttpGet]
-        public async Task<GetPinnedRepositoriesResponse> Get()
+        [Route(AppRoutes.FilesController.PinnedRepositories)]
+        public async Task<PinnedRepositoriesFile> Get()
         {
-            var getPinnedRepositoriesResponse = await _gitHubService.GetPinnedRepositories(_appSettings.GitHub.Login);
+            var pinnedRepositoriesFile = await _gitHubService.GetAndSyncPinnedRepositoriesFile();
 
-            await _gitHubService.PutGitHubReposS3(getPinnedRepositoriesResponse.ToS3FileFormat());
-
-            return getPinnedRepositoriesResponse;
+            return pinnedRepositoriesFile;
         }
     }
 }

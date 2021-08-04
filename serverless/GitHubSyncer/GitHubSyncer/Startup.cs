@@ -1,3 +1,4 @@
+using System;
 using Amazon.S3;
 using GithubSyncer.Contracts;
 using GithubSyncer.Contracts.Shared;
@@ -29,6 +30,7 @@ namespace GitHubSyncer
         {
             // Config
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            ConfigureAppEnvironment(services);
 
             // Singleton
             services.AddSingleton<IExternalRoutes, ExternalRoutes>();
@@ -43,6 +45,17 @@ namespace GitHubSyncer
             // S3
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonS3>();
+        }
+
+        private static void ConfigureAppEnvironment(IServiceCollection services)
+        {
+            var gitHubAccessToken = Environment.GetEnvironmentVariable("GITHUB_ACCESS_TOKEN");
+
+            var appEnvironment = new AppEnvironment(
+                gitHubAccessToken: gitHubAccessToken
+            );
+
+            services.AddSingleton<AppEnvironment>(appEnvironment);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Amazon.S3;
+using GithubSyncer.Contracts;
 using GithubSyncer.Contracts.External.GitHub.Responses;
 using GithubSyncer.Contracts.External.S3;
 using GithubSyncer.Contracts.Shared;
@@ -22,31 +23,33 @@ namespace GitHubSyncer.Services
         public readonly IAmazonS3 _s3;
         private readonly IS3Helper _s3Helper;
         private readonly AppSettings _appSettings;
+        private readonly AppEnvironment _appEnvironment;
         public readonly IExternalRoutes _externalRoutes;
         public readonly GraphQLHttpClient _githubGraphQLClient;
         public const string GitHubFolderS3Path = "GitHub";
         public const string _pinnedRepositoriesFileName = "pinned_repositories";
 
-        public GitHubService(IOptions<AppSettings> appSettings, IExternalRoutes externalRoutes, IS3Helper s3Helper, IAmazonS3 s3)
+        public GitHubService(IOptions<AppSettings> appSettings, AppEnvironment appEnvironment, IExternalRoutes externalRoutes, IS3Helper s3Helper, IAmazonS3 s3)
         {
             _s3 = s3;
             _appSettings = appSettings.Value;
+            _appEnvironment = appEnvironment;
             _externalRoutes = externalRoutes;
 
-            _githubGraphQLClient = GetGraphQLHttpClient(_appSettings, _externalRoutes);
+            _githubGraphQLClient = GetGraphQLHttpClient(_appEnvironment.GitHubAccessToken, _externalRoutes.GitHubApiGraphQL);
 
             _s3Helper = s3Helper;
         }
 
-        private GraphQLHttpClient GetGraphQLHttpClient(AppSettings appSettings, IExternalRoutes externalRoutes)
+        private GraphQLHttpClient GetGraphQLHttpClient(string gitHubAccessToken, string gitHubApiGraphQL)
         {
             var httpClient = new HttpClient();
 
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", appSettings.GitHub.AccessToken);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", gitHubAccessToken);
 
             var graphQLOptions = new GraphQLHttpClientOptions
             {
-                EndPoint = new Uri(externalRoutes.GitHubApiGraphQL)
+                EndPoint = new Uri(gitHubApiGraphQL)
             };
 
             return new GraphQLHttpClient(graphQLOptions, new NewtonsoftJsonSerializer(), httpClient);

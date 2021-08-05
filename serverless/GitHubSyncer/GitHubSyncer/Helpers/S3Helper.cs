@@ -21,7 +21,7 @@ namespace GithubSyncer.Handlers
             _s3 = s3;
         }
 
-        public async Task AddObjToS3AsJson(object obj, string key)
+        public async Task PutObjToS3AsJson(object obj, string key)
         {
             var json = JsonConvert.SerializeObject(obj);
 

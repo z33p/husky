@@ -4,6 +4,6 @@ namespace GithubSyncer.Helpers.Shared
 {
     public interface IS3Helper
     {
-        Task AddObjToS3AsJson(object obj, string key);
+        Task PutObjToS3AsJson(object obj, string key);
     }
 }

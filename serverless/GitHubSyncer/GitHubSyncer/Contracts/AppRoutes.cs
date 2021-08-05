@@ -6,8 +6,11 @@ namespace GithubSyncer.Contracts
         // Base
         public const string BASE_URL = "githubsyncer";
 
-        // Controllers
-        public const string Files = BASE_URL + "/Files";
+        public static class FilesController
+        {
+            public const string Root = AppRoutes.BASE_URL + "/Files";
 
+            public const string PinnedRepositories = Root + "/PinnedRepositories";
+        }
     }
 }

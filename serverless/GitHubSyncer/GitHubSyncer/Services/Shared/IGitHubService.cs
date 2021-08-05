@@ -6,7 +6,6 @@ namespace GithubSyncer.Services.Shared
 {
     public interface IGitHubService
     {
-        Task<GetPinnedRepositoriesResponse> GetPinnedRepositories(string login);
-        Task PutGitHubReposS3(PinnedRepositoriesFile repositories);
+        Task<PinnedRepositoriesFile> GetAndSyncPinnedRepositoriesFile();
     }
 }

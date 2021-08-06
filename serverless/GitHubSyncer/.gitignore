@@ -146,7 +146,3 @@ dist
 
 # TernJS port file
 .tern-port
-
-# AppSettings
-appsettings.json
-appsettings.Development.json

@@ -12,6 +12,6 @@
     "s3-prefix": "GitHubSyncer/",
     "template": "serverless.template",
     "template-parameters": "",
-    "s3-bucket": "z33p-husky",
+    "s3-bucket": "my-code-base",
     "stack-name": "Husky"
 }

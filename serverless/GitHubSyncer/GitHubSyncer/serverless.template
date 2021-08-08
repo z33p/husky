@@ -8,12 +8,13 @@
     "AspNetCoreFunction": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
+        "FunctionName": "GitHubSyncer",
         "Handler": "GitHubSyncer::GitHubSyncer.LambdaEntryPoint::FunctionHandlerAsync",
         "Runtime": "dotnetcore3.1",
         "CodeUri": "",
         "MemorySize": 256,
         "Timeout": 30,
-        "Role": null,
+        "Role": "arn:aws:iam::939215666988:role/husky-role",
         "Policies": [
           "AWSLambda_FullAccess"
         ],

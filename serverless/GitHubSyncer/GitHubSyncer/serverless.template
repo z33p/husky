@@ -2,7 +2,12 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Transform": "AWS::Serverless-2016-10-31",
   "Description": "An AWS Serverless Application that uses the ASP.NET Core framework running in Amazon Lambda.",
-  "Parameters": {},
+  "Parameters": {
+    "GitHubAccessToken": {
+      "Description": "Access token to use as authenticated user in GitHub API",
+      "Type": "String"
+    }
+  },
   "Conditions": {},
   "Resources": {
     "AspNetCoreFunction": {
@@ -15,6 +20,13 @@
         "MemorySize": 256,
         "Timeout": 30,
         "Role": "arn:aws:iam::939215666988:role/husky-role",
+        "Environment": {
+          "Variables": {
+            "GITHUB_ACCESS_TOKEN": {
+              "Ref": "GitHubAccessToken"
+            }
+          }
+        },
         "Policies": [
           "AWSLambda_FullAccess"
         ],

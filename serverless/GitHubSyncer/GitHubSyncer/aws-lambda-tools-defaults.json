@@ -13,11 +13,5 @@
     "template": "serverless.template",
     "template-parameters": "",
     "s3-bucket": "my-code-base",
-    "stack-name": "Husky",
-    "function-name": "GitHubSyncer",
-    "package-type": "Zip",
-    "function-handler": "GitHubSyncer::GitHubSyncer.LambdaEntryPoint::FunctionHandlerAsync",
-    "function-memory-size": 256,
-    "function-role": "arn:aws:iam::939215666988:role/husky-role",
-    "function-timeout": 30
+    "stack-name": "Husky"
 }

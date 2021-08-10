@@ -107,7 +107,6 @@ namespace GitHubSyncer.Services
             var filePath = $"{GitHubFolderS3Path}/{_pinnedRepositoriesFileName}";
 
             var getS3FileResponse = await _s3.GetObjectAsync(_appSettings.Buckets.Husky, filePath);
-
             var jsonPinnedRepositoriesFileFromS3 = await _s3Helper.GetFileContent(getS3FileResponse);
 
             var pinnedRepositoriesFileFromS3 = JsonConvert.DeserializeObject<PinnedRepositoriesFile>(jsonPinnedRepositoriesFileFromS3);
@@ -120,10 +119,14 @@ namespace GitHubSyncer.Services
                 var jsonPinnedRepositoriesFileFromGitHub = JsonConvert.SerializeObject(pinnedRepositoriesFileFromGitHub);
 
                 if (jsonPinnedRepositoriesFileFromS3 != jsonPinnedRepositoriesFileFromGitHub)
-                    await PutGitHubReposS3(pinnedRepositoriesFileFromGitHub);
+                {
+                    await PutGitHubReposS3(pinnedRepositoriesFileFromGitHub).ConfigureAwait(false);
+                    return pinnedRepositoriesFileFromGitHub;
+                }
             }
 
             return pinnedRepositoriesFileFromS3;
         }
+
     }
 }

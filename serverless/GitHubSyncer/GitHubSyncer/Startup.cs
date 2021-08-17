@@ -1,5 +1,7 @@
 using System;
+using Amazon;
 using Amazon.S3;
+using Amazon.Translate;
 using GithubSyncer.Contracts;
 using GithubSyncer.Contracts.Shared;
 using GithubSyncer.Handlers;
@@ -42,7 +44,13 @@ namespace GitHubSyncer
             // Controllers
             services.AddControllers();
 
-            // S3
+            // AWS - Region USEast1
+            var awsOptions = Configuration.GetAWSOptions();
+
+            awsOptions.Region = RegionEndpoint.USEast1;
+            services.AddAWSService<IAmazonTranslate>(awsOptions);
+
+            // AWS - Region Generic
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonS3>();
         }

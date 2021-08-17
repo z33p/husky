@@ -90,7 +90,7 @@ namespace GitHubSyncer.Services
                                         ... on Repository {
                                             name
                                             description
-                                            languages(first: 2) {
+                                            languages(first: 2, orderBy: { field: SIZE, direction: DESC }) {
                                                 nodes {
                                                     name
                                                     color

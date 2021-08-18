@@ -25,9 +25,18 @@ namespace GitHubSyncer.Controllers
 
         [HttpGet]
         [Route(AppRoutes.FilesController.PinnedRepositories)]
-        public async Task<PinnedRepositoriesFile> Get()
+        public async Task<PinnedRepositoriesFile> PinnedRepositories()
         {
             var pinnedRepositoriesFile = await _gitHubService.GetAndSyncPinnedRepositoriesFile();
+
+            return pinnedRepositoriesFile;
+        }
+
+        [HttpGet]
+        [Route(AppRoutes.FilesController.PinnedRepositoriesPerLanguageCode)]
+        public async Task<PinnedRepositoriesFile> PinnedRepositories([FromRoute] string languageCode)
+        {
+            var pinnedRepositoriesFile = await _gitHubService.GetAndSyncPinnedRepositoriesFile(languageCode);
 
             return pinnedRepositoriesFile;
         }

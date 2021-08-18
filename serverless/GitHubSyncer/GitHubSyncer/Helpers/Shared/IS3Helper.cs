@@ -7,5 +7,6 @@ namespace GithubSyncer.Helpers.Shared
     {
         Task PutObjToS3AsJson(object obj, string key);
         Task<string> GetFileContent(GetObjectResponse getS3FileResponse);
+        Task<T> GetDeserializedS3Object<T>(string filePath);
     }
 }

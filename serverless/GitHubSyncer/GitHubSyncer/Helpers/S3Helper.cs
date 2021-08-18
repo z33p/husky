@@ -21,6 +21,14 @@ namespace GithubSyncer.Handlers
             _s3 = s3;
         }
 
+        public async Task<T> GetDeserializedS3Object<T>(string filePath)
+        {
+            var getS3FileResponse = await _s3.GetObjectAsync(_appSettings.Buckets.Husky, filePath);
+            var jsonPinnedRepositoriesFileFromS3 = await GetFileContent(getS3FileResponse);
+
+            return JsonConvert.DeserializeObject<T>(jsonPinnedRepositoriesFileFromS3);
+        }
+
         public async Task<string> GetFileContent(GetObjectResponse getObjectResponse)
         {
             var buffer = new byte[getObjectResponse.ResponseStream.Length];
@@ -34,7 +42,12 @@ namespace GithubSyncer.Handlers
 
         public async Task PutObjToS3AsJson(object obj, string key)
         {
-            var json = JsonConvert.SerializeObject(obj);
+            string json;
+
+            if (obj.GetType() == typeof(string))
+                json = obj as string;
+            else
+                json = JsonConvert.SerializeObject(obj);
 
             var s3File = new PutObjectRequest
             {

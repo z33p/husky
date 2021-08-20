@@ -1,8 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 using Amazon.S3;
+using Amazon.Translate;
+using Amazon.Translate.Model;
 using GithubSyncer.Contracts;
 using GithubSyncer.Contracts.External.GitHub.Responses;
 using GithubSyncer.Contracts.External.S3;
@@ -26,10 +31,24 @@ namespace GitHubSyncer.Services
         private readonly AppEnvironment _appEnvironment;
         public readonly IExternalRoutes _externalRoutes;
         public readonly GraphQLHttpClient _githubGraphQLClient;
-        public const string GitHubFolderS3Path = "GitHub";
-        public const string _pinnedRepositoriesFileName = "pinned_repositories";
+        public readonly IAmazonTranslate _awsTranslate;
 
-        public GitHubService(IOptions<AppSettings> appSettings, AppEnvironment appEnvironment, IExternalRoutes externalRoutes, IS3Helper s3Helper, IAmazonS3 s3)
+        public const string GitHubFolderS3Path = "GitHub";
+        public const string PinnedRepositoriesFileName = "pinned_repositories";
+        public readonly string[] TargetLanguagesCodeTranslations = new string[]
+        {
+            "PT"
+        };
+        public readonly List<string> InvariableNames = new List<string>();
+
+        public GitHubService(
+            IOptions<AppSettings> appSettings
+            , AppEnvironment appEnvironment
+            , IExternalRoutes externalRoutes
+            , IS3Helper s3Helper
+            , IAmazonS3 s3
+            , IAmazonTranslate awsTranslate
+        )
         {
             _s3 = s3;
             _appSettings = appSettings.Value;
@@ -39,6 +58,7 @@ namespace GitHubSyncer.Services
             _githubGraphQLClient = GetGraphQLHttpClient(_appEnvironment.GitHubAccessToken, _externalRoutes.GitHubApiGraphQL);
 
             _s3Helper = s3Helper;
+            _awsTranslate = awsTranslate;
         }
 
         private GraphQLHttpClient GetGraphQLHttpClient(string gitHubAccessToken, string gitHubApiGraphQL)
@@ -55,6 +75,54 @@ namespace GitHubSyncer.Services
             return new GraphQLHttpClient(graphQLOptions, new NewtonsoftJsonSerializer(), httpClient);
         }
 
+        public async Task SyncPinnedRepositoriesFile()
+        {
+            var pinnedRepositoriesFileFromGitHub = (await GetPinnedRepositories(_appSettings.GitHub.Login)).ToS3FileFormat();
+
+            await SyncPinnedRepositoriesFilesTranslation(pinnedRepositoriesFileFromGitHub);
+        }
+
+        public async Task<PinnedRepositoriesFile> GetAndSyncPinnedRepositoriesFile(string languageCode = null)
+        {
+            if (languageCode != null && !TargetLanguagesCodeTranslations.Contains(languageCode))
+                throw new ArgumentException("Webservice doesn't support this language code");
+
+            var filePath = $"{GitHubFolderS3Path}/{PinnedRepositoriesFileName}";
+
+            var getS3FileResponse = await _s3.GetObjectAsync(_appSettings.Buckets.Husky, filePath);
+            var jsonPinnedRepositoriesFileFromS3 = await _s3Helper.GetFileContent(getS3FileResponse);
+
+            var pinnedRepositoriesFileFromS3 = JsonConvert.DeserializeObject<PinnedRepositoriesFile>(jsonPinnedRepositoriesFileFromS3);
+
+            var totalMinutesAfterModified = (DateTime.UtcNow - getS3FileResponse.LastModified).TotalMinutes;
+
+            if (totalMinutesAfterModified > 30)
+            {
+                var pinnedRepositoriesFileFromGitHub = (await GetPinnedRepositories(_appSettings.GitHub.Login)).ToS3FileFormat();
+
+                if (languageCode == null)
+                    SyncPinnedRepositoriesFilesTranslationThread(pinnedRepositoriesFileFromGitHub);
+                else
+                {
+                    filePath += $" - {languageCode}";
+                    pinnedRepositoriesFileFromGitHub = JsonConvert.DeserializeObject<PinnedRepositoriesFile>(
+                        await SyncPinnedRepositoriesFileTranslation(pinnedRepositoriesFileFromGitHub, languageCode, filePath)
+                    );
+                }
+
+                return pinnedRepositoriesFileFromGitHub;
+            }
+
+            if (languageCode != null)
+            {
+                filePath += $" - {languageCode}";
+                pinnedRepositoriesFileFromS3 = await _s3Helper.GetDeserializedS3Object<PinnedRepositoriesFile>(filePath);
+            }
+
+            return pinnedRepositoriesFileFromS3;
+        }
+
+
         private async Task<GetPinnedRepositoriesResponse> GetPinnedRepositories(string login)
         {
             var operationName = "GetPinnedRepositories";
@@ -70,7 +138,7 @@ namespace GitHubSyncer.Services
                                         ... on Repository {
                                             name
                                             description
-                                            languages(first: 2) {
+                                            languages(first: 2, orderBy: { field: SIZE, direction: DESC }) {
                                                 nodes {
                                                     name
                                                     color
@@ -95,35 +163,133 @@ namespace GitHubSyncer.Services
             return res.Data;
         }
 
-        private async Task PutGitHubReposS3(PinnedRepositoriesFile repositories)
-        {
-            var filePath = $"{GitHubFolderS3Path}/{_pinnedRepositoriesFileName}";
 
-            await _s3Helper.PutObjToS3AsJson(repositories, filePath);
+        private void SyncPinnedRepositoriesFilesTranslationThread(PinnedRepositoriesFile pinnedRepositoriesFileFromGitHub)
+        {
+            new Thread(
+                new ThreadStart(
+                    async () => await SyncPinnedRepositoriesFilesTranslation(pinnedRepositoriesFileFromGitHub)
+                )
+            ).Start();
         }
 
-        public async Task<PinnedRepositoriesFile> GetAndSyncPinnedRepositoriesFile()
+        private async Task SyncPinnedRepositoriesFilesTranslation(PinnedRepositoriesFile repositories)
         {
-            var filePath = $"{GitHubFolderS3Path}/{_pinnedRepositoriesFileName}";
+            var filePath = $"{GitHubFolderS3Path}/{PinnedRepositoriesFileName}";
 
-            var getS3FileResponse = await _s3.GetObjectAsync(_appSettings.Buckets.Husky, filePath);
+            var putObjectTask = _s3Helper.PutObjToS3AsJson(repositories, filePath);
 
-            var jsonPinnedRepositoriesFileFromS3 = await _s3Helper.GetFileContent(getS3FileResponse);
+            var invariableNames = new HashSet<string>(InvariableNames).Union(repositories.Data.Select(repo => repo.Name));
 
-            var pinnedRepositoriesFileFromS3 = JsonConvert.DeserializeObject<PinnedRepositoriesFile>(jsonPinnedRepositoriesFileFromS3);
+            var tasks = TargetLanguagesCodeTranslations.Select(
+                targetLanguageCode => SyncPinnedRepositoriesFileTranslation(repositories, targetLanguageCode, filePath)
+            );
 
-            var totalMinutesAfterModified = (DateTime.UtcNow - getS3FileResponse.LastModified).TotalMinutes;
+            await putObjectTask;
+            await Task.WhenAll(tasks);
+        }
 
-            if (totalMinutesAfterModified > 30)
+        private async Task<string> SyncPinnedRepositoriesFileTranslation(PinnedRepositoriesFile repositories, string targetLanguageCode, string filePath)
+        {
+            var fileTranslated = await GetPinnedRepositoriesFileTranslation(repositories, targetLanguageCode);
+
+            await _s3Helper.PutObjToS3AsJson(fileTranslated, $"{filePath} - {targetLanguageCode}");
+
+            return fileTranslated;
+        }
+
+        private async Task<string> GetPinnedRepositoriesFileTranslation(PinnedRepositoriesFile repositories, string targetLanguageCode)
+        {
+            var filePath = $"{GitHubFolderS3Path}/{PinnedRepositoriesFileName}";
+
+            var invariableNames = new HashSet<string>(InvariableNames).Union(repositories.Data.Select(repo => repo.Name));
+
+            var dict = await TranslatePropertiesRecursively(
+                    repositories,
+                    targetLanguageCode,
+                    invariableNames
+                );
+
+            return JsonConvert.SerializeObject(dict);
+        }
+
+        private async Task<IDictionary<string, object>> TranslatePropertiesRecursively(
+            object obj, string targetLanguageCode, IEnumerable<string> invariableNames
+        )
+        {
+            var dict = obj
+                .GetType()
+                .GetProperties()
+                .ToDictionary(
+                    propInfo => propInfo.Name,
+                    propInfo => propInfo.GetValue(obj, null)
+                );
+
+            foreach (var key in dict.Keys.ToList())
             {
-                var pinnedRepositoriesFileFromGitHub = (await GetPinnedRepositories(_appSettings.GitHub.Login)).ToS3FileFormat();
-                var jsonPinnedRepositoriesFileFromGitHub = JsonConvert.SerializeObject(pinnedRepositoriesFileFromGitHub);
+                var value = dict[key];
 
-                if (jsonPinnedRepositoriesFileFromS3 != jsonPinnedRepositoriesFileFromGitHub)
-                    await PutGitHubReposS3(pinnedRepositoriesFileFromGitHub);
+                if (value == null) return null;
+
+                if (value.GetType() == typeof(string))
+                {
+                    var text = value as string;
+
+                    List<string> replacedNames;
+                    text = TextInvariableFormating(text, invariableNames, out replacedNames);
+
+                    var awsTranslateResponse = await _awsTranslate.TranslateTextAsync(
+                        new TranslateTextRequest
+                        {
+                            SourceLanguageCode = "EN",
+                            TargetLanguageCode = targetLanguageCode,
+                            Text = text,
+                        }
+                    );
+
+                    dict[key] = TextInvariableFormated(awsTranslateResponse.TranslatedText, replacedNames);
+                }
+                else if (value is IEnumerable<object>)
+                {
+                    var enumerable = value as IEnumerable<object>;
+
+                    var tasks = enumerable.Select(item => TranslatePropertiesRecursively(item, targetLanguageCode, invariableNames));
+
+                    await Task.WhenAll(tasks);
+
+                    dict[key] = tasks.Select(task => task.Result);
+                }
+                else if (!value.GetType().IsPrimitive || value.GetType() != typeof(decimal))
+                {
+                    dict[key] = await TranslatePropertiesRecursively(value, targetLanguageCode, invariableNames);
+                }
+            };
+
+            return dict;
+        }
+
+        private string TextInvariableFormating(string text, IEnumerable<string> invariableNames, out List<string> replacedNames)
+        {
+            replacedNames = new List<string>();
+
+            foreach (var invariableName in invariableNames)
+            {
+                if (text.Contains(invariableName))
+                {
+                    text = text.Replace(invariableName, $"{{{replacedNames.Count}}}");
+                    replacedNames.Add(invariableName);
+                }
             }
 
-            return pinnedRepositoriesFileFromS3;
+            return text;
+        }
+
+        private string TextInvariableFormated(string text, IEnumerable<string> invariableNames)
+        {
+            if (invariableNames.Any())
+                text = string.Format(text, invariableNames.ToArray());
+
+            return text;
         }
     }
 }

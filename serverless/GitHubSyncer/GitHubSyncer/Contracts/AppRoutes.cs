@@ -9,8 +9,8 @@ namespace GithubSyncer.Contracts
         public static class FilesController
         {
             public const string Root = AppRoutes.BASE_URL + "/files";
-
-            public const string PinnedRepositories = "pinned_repositories";
+            public const string PinnedRepositories = Root + "/pinned_repositories";
+            public const string PinnedRepositoriesPerLanguageCode = Root + "/pinned_repositories/{languageCode}";
         }
     }
 }

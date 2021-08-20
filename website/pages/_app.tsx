@@ -1,4 +1,4 @@
-import "../styles/custom.scss";
+import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/dist/client/router";
 import { MutableRefObject, useEffect } from "react";

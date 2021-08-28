@@ -2,6 +2,8 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@import "./headings.css";
+
 * {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   @apply text-base;
@@ -11,4 +13,4 @@ p {
   @apply py-2;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Mali&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Kalam&display=swap");

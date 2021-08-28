@@ -2,8 +2,6 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import "./headings.css";
-
 * {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   @apply text-base;

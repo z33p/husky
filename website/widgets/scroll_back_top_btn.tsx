@@ -34,9 +34,8 @@ export default function ScrollBackTopBtn() {
     right: 30 + "px",
     border: "none",
     outline: "none",
-    cursor: "pointer",
     fontSize: 1 + "rem",
-    padding: .9 + "em"
+    padding: 0.9 + "em",
   };
 
   return (
@@ -44,7 +43,7 @@ export default function ScrollBackTopBtn() {
       onClick={scrollBackTop}
       style={style}
       title="Go to top"
-      className="d-block position-fixed bg-primary text-white rounded-circle"
+      className="block fixed bg-primary text-white rounded-full cursor-pointer"
     >
       <FontAwesomeIcon icon={faArrowUp} style={{ width: 1.2 + "rem" }} />
     </button>

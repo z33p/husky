@@ -1,3 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+* {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  @apply text-base;
+}
+
+p {
+  @apply py-2;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Mali&display=swap');

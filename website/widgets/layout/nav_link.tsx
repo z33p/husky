@@ -36,8 +36,8 @@ export default function NavLink({
   };
 
   return (
-    <li className={`nav-item ${active ? "active" : ""}`}>
-      <a className="nav-link" href={linkToScroll} onClick={onClickLink}>
+    <li className={`${active ? "active" : ""}`}>
+      <a className="text-base hover:underline " href={linkToScroll} onClick={onClickLink}>
         {name}
       </a>
     </li>

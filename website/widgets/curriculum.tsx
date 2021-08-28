@@ -1,28 +1,26 @@
 import React from "react";
 import GoogleAnalyticsService from "../lib/services/google_analytics/google_analytics_service";
-import Section from "./section";
+import Section from "./section/section";
+import Button from "./shared/button";
 
 export default function Curriculum() {
   const googleAnalyticsService = new GoogleAnalyticsService();
 
   return (
-    <Section id="curriculum" title="Currículo" applyDivider>
-      <div className="row justify-content-center pb-5">
-        <div
-          className="bg-white col-md-4 border shadow"
-          style={{ width: 20 + "em", height: 10 + "em" }}
-        >
-          <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+    <Section id="curriculum" title="Currículo" className="pb-6" applyDivider>
+      <div>
+        <div className="px-24 py-12 md:px-32 md:py-16 border shadow">
+          <Button>
             <a
               href="/curriculo.pdf"
               target="_blank"
-              className="btn btn-outline-primary"
+              className=""
               rel="noreferrer"
               onClick={() => googleAnalyticsService.triggerDownloadCurriculum()}
             >
               Abrir PDF
             </a>
-          </div>
+          </Button>
         </div>
       </div>
     </Section>

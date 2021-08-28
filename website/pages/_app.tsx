@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../styles/headings.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/dist/client/router";
 import { MutableRefObject, useEffect } from "react";

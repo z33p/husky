@@ -24,21 +24,20 @@ export default function CardContact({
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="bg-white text-dark text-decoration-none"
+      className="p-4 bg-white text-black cursor-pointer"
       title={title}
-      style={{ cursor: "pointer" }}
     >
       <div
-        className={"p-4 border shadow"}
+        className="p-3 border shadow-lg flex flex-col items-center"
         onClick={(e) => console.log(e)}
         style={iconStyle}
       >
         <FontAwesomeIcon
           icon={icon}
-          className={`d-block p-2 ${iconClasses}`}
+          className={`block p-2 m-0 ${iconClasses ?? ""}`}
           style={{ width: 4.5 + "rem" }}
         />
-        <span className="d-block text-center">{name}</span>
+        <span className="block text-center">{name}</span>
       </div>
     </a>
   );

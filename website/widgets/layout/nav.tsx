@@ -53,7 +53,7 @@ export default function Nav() {
   return (
     <React.Fragment>
       <div
-        className="fixed-top w-100"
+        className="fixed top-0 w-full"
         style={{
           backgroundColor: isNavBgTransparent
             ? "rgba(0, 0, 0, 0)"
@@ -69,19 +69,18 @@ export default function Nav() {
           backgroundColor:
             isNavBgTransparent && isCollapsed ? "rgba(0, 0, 0, 0)" : "black",
         }}
-        className="fixed-top w-100 justify-content-between navbar navbar-dark navbar-expand-lg px-3"
+        className="flex justify-between fixed top-0 w-full px-10 text-white"
         ref={appContext.refNav}
       >
-        <h2
-          className="navbar-brand p-2"
-          style={{ cursor: "pointer" }}
+        <h6
+          className="p-2 font-semibold cursor-pointer"
           onClick={scrollBackTop}
         >
           Z33P
-        </h2>
+        </h6>
 
-        <button
-          className="navbar-toggler"
+        {/* <button
+          className=""
           type="button"
           data-toggle="collapse"
           data-target="#navbar"
@@ -94,14 +93,13 @@ export default function Nav() {
           }}
         >
           <span className="navbar-toggler-icon" />
-        </button>
+        </button> */}
 
         <div
           id="navbar"
-          style={{ flexGrow: "unset" }}
-          className={`navbar-collapse collapse ${isCollapsed ? "" : "show"}`}
+          className={`w-3/5 lg:w-2/5 ${isCollapsed ? "" : "show"}`}
         >
-          <ul className="navbar-nav">
+          <ul className="h-full hidden sm:flex justify-around place-items-center">
             <NavLink
               name="Sobre mim"
               linkToScroll="#about-me"

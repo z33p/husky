@@ -30,11 +30,11 @@ export default function Section({
     textColorClass = "text-dark";
   }
 
-  const sectionPadding = "my-1";
+  const sectionPadding = "px-4 md:px-6";
 
   return (
-    <div className="d-flex justify-content-center">
-      <div className="section">
+    <div className="py-2 flex justify-center">
+      <div className="w-full section">
         {applyDivider ? (
           <div className={sectionPadding}>
             <hr />
@@ -43,13 +43,19 @@ export default function Section({
 
         <section
           id={id}
-          className={`${
+          className={`w-full ${
             className ?? ""
           } ${backgroundClass} ${textColorClass} ${sectionPadding}`}
           style={style}
         >
-          <h1 className="pt-4 m-0">{title}</h1>
-          <div className="pt-2 pt-md-3">{children}</div>
+          <div className="flex jusitfy-content-center place-content-center">
+            <div className="w-full lg:w-11/12 xl:w-3/4">
+              <h1 className="px-0 py-2 md:py-3">{title}</h1>
+              <div className="flex jusitfy-content-center place-content-center">
+                {children}
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     </div>

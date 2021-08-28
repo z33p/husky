@@ -1,6 +1,7 @@
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import Button from "../shared/button";
 
 interface Language {
   name: string;
@@ -23,43 +24,36 @@ export default function CardRepository({
   url,
 }: CardRepositoryProps) {
   return (
-    <div className={`${className ?? ""} d-flex justify-content-center align-items-baseline`}>
-      <div className="card shadow">
-        <div className="card-body">
-          <h5 className="card-title">{name}</h5>
-          <p className="card-text" style={{ textAlign: "justify" }}>
-            {description}
-          </p>
+    <div
+      className={`${className ?? ""} flex justify-center align-items-baseline`}
+    >
+      <div className="p-2 lg:p-4 border shadow-lg">
+        <div className="">
+          <h6 className="p-0">{name}</h6>
+          <p className="py-3 px-0 text-justify">{description}</p>
 
-          <div className="row">
-            <div className="col-6">
+          <div className="flex justify-between place-items-center">
+            <div className="">
               {languages?.map((language, index) => (
-                <h6 key={index} className="text-muted d-flex">
+                <div key={index} className="flex pb-1">
                   <FontAwesomeIcon
                     icon={faCircle}
-                    className="pt-1"
+                    className="p-1"
                     style={{
-                      width: 1.1 + "rem",
-                      height: 1.1 + "rem",
+                      width: 1.5 + "rem",
+                      height: 1.5 + "rem",
                       color: language.color,
                     }}
                   />
-                  <span>{language.name}</span>
-                </h6>
+
+                  <span className="text-sm">{language.name}</span>
+                </div>
               ))}
             </div>
-            <div className="col-6">
-              <div className="w-100 h-100 d-flex justify-content-center align-items-center">
-                <a
-                  href={url}
-                  target="_blank"
-                  className="btn btn-primary"
-                  rel="noreferrer"
-                >
-                  Saber mais
-                </a>
-              </div>
-            </div>
+
+            <a href={url} target="_blank" rel="noreferrer">
+              <Button className="text-sm">Saber mais</Button>
+            </a>
           </div>
         </div>
       </div>

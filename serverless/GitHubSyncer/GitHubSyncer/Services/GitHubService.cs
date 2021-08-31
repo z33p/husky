@@ -132,11 +132,12 @@ namespace GitHubSyncer.Services
                 Query = @"
                     query GetPinnedRepositories($login: String!) {
                         user(login: $login) {
-                            pinnedItems(first: 5, types: REPOSITORY) {
+                            pinnedItems(first: 6, types: REPOSITORY) {
                                 edges {
                                     node {
                                         ... on Repository {
                                             name
+                                            url
                                             description
                                             languages(first: 2, orderBy: { field: SIZE, direction: DESC }) {
                                                 nodes {

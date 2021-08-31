@@ -17,6 +17,7 @@ namespace GithubSyncer.Contracts.External.GitHub.Responses
         {
             public string Name { get; set; }
 
+            public string Url { get; set; }
             public string Description { get; set; }
 
             public GitHubNodes<GitHubLanguage> Languages { get; set; }
@@ -27,6 +28,7 @@ namespace GithubSyncer.Contracts.External.GitHub.Responses
             var repositories = this.User.PinnedItems.Edges.Select(e => new PinnedRepositoriesFile.GitHubRepository
             {
                 Name = e.Node.Name,
+                Url = e.Node.Url,
                 Description = e.Node.Description,
                 Languages = e.Node.Languages.Nodes,
             });

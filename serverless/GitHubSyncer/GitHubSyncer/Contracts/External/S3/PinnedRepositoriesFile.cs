@@ -11,6 +11,8 @@ namespace GithubSyncer.Contracts.External.S3
         {
             public string Name { get; set; }
 
+            public string Url { get; set; }
+
             public string Description { get; set; }
 
             public IEnumerable<GitHubLanguage> Languages { get; set; }

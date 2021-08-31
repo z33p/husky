@@ -2,6 +2,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   @apply text-base;

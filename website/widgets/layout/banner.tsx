@@ -5,16 +5,16 @@ const textStyle: React.CSSProperties = {
   fontWeight: "normal",
 };
 
+const bannerUrl = "https://z33p-husky.s3.sa-east-1.amazonaws.com/Assets/banner.jpg";
+
+const bannerImgStyle = {
+  backgroundImage: `url(${bannerUrl})`,
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "cover",
+};
+
 export default function Banner() {
-  const imgUrl = "me_4_ws.jpg";
-
-  const bannerImgStyle = {
-    backgroundImage: `url(${imgUrl})`,
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-  };
-
   return (
     <section className="h-screen flex justify-center place-items-center bg-primary relative">
       <div

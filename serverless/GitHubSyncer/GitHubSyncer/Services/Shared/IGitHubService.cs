@@ -6,6 +6,5 @@ namespace GithubSyncer.Services.Shared
     public interface IGitHubService
     {
         Task<PinnedRepositoriesFile> GetAndSyncPinnedRepositoriesFile(string languageCode = null);
-        Task SyncPinnedRepositoriesFile();
     }
 }

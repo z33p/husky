@@ -29,7 +29,6 @@ export default function CardContact({
     >
       <div
         className="p-3 border shadow-lg flex flex-col items-center"
-        onClick={(e) => console.log(e)}
         style={iconStyle}
       >
         <FontAwesomeIcon

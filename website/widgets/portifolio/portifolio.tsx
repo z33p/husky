@@ -1,17 +1,19 @@
-import githubResposReturn from "../../lib/data/github_repos_return.json";
 import React from "react";
 import Section from "../section/section";
 import CardRepository from "./card_repository";
+import PinnedRepositoriesFile from "../../lib/contracts/external/pinned_repositories_file";
 
-export default function Portfolio() {
+interface Props {
+  pinnedRepositoriesFile: PinnedRepositoriesFile;
+}
+
+export default function Portfolio({ pinnedRepositoriesFile }: Props) {
   return (
     <Section id="portfolio" title="Portfólio" applyDivider>
       <div className="">
         <div className="grid lg:grid-cols-3 gap-4 items-baseline">
-          {githubResposReturn.data.user.pinnedItems.edges.map((edge, index) => {
-            const { node: repository } = edge;
-
-            const languagens = repository.languages.nodes.map((language) => ({
+          {pinnedRepositoriesFile.data.map((repo, index) => {
+            const languagens = repo.languages.map((language) => ({
               name: language.name,
               color: language.color,
             }));
@@ -19,10 +21,10 @@ export default function Portfolio() {
             return (
               <CardRepository
                 key={index}
-                name={repository.name}
-                description={repository.description}
+                name={repo.name}
+                description={repo.description}
                 languages={languagens}
-                url={repository.url}
+                url=""
                 className="pb-4"
               />
             );

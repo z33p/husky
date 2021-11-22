@@ -31,10 +31,12 @@ export default function Nav() {
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
-      setIsCollapsed(true);
+      if (!isCollapsed)
+        setIsCollapsed(true);
+
       navOpaqueWhenHitScreenLimit();
     });
-  }, [navOpaqueWhenHitScreenLimit]);
+  }, [isCollapsed, navOpaqueWhenHitScreenLimit]);
 
   appContext.refNav = useRef<HTMLDivElement>(null);
 
@@ -43,12 +45,14 @@ export default function Nav() {
   const resizeBlurBg = useCallback(() => {
     if (!appContext.refNav?.current) return;
 
-    setNavHeight(appContext.refNav.current.offsetHeight);
+    const height = appContext.refNav.current.offsetHeight;
+
+    setNavHeight(height);
   }, [appContext.refNav]);
 
   useEffect(() => {
     resizeBlurBg();
-  }, [resizeBlurBg, isCollapsed]);
+  }, [resizeBlurBg, isNavBgTransparent]);
 
   return (
     <React.Fragment>

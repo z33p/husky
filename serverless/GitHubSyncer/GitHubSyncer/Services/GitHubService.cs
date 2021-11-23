@@ -87,7 +87,7 @@ namespace GitHubSyncer.Services
             if (languageCode != null && !_targetLanguagesCodeTranslations.Contains(languageCode))
                 throw new ArgumentException($"Webservice doesn't support this language code: {languageCode}");
 
-            var filePath = $"{_gitHubFolderS3Path}/{_pinnedRepositoriesFileName}";
+            var filePath = GetS3FilePath();
 
             var getS3FileResponse = await _s3.GetObjectAsync(_appSettings.Buckets.Husky, filePath);
             var jsonPinnedRepositoriesFileFromS3 = await _s3Helper.GetFileContent(getS3FileResponse);
@@ -102,25 +102,16 @@ namespace GitHubSyncer.Services
 
                 var invariableNames = new HashSet<string>(_invariableNames)
                     .Union(pinnedRepositoriesFileFromGitHub.Data.Select(repo => repo.Name))
-                    .Union(_fromToInvariableNames.Select(value => value.Key))
+                    .Union(GetLanguagesFromRepos(pinnedRepositoriesFileFromGitHub))
                     .ToList();
-
-                invariableNames = invariableNames.Select(name =>
-                {
-                    if (_fromToInvariableNames.ContainsKey(name.ToUpper()))
-                        return _fromToInvariableNames[name.ToUpper()];
-
-                    return name;
-                }).ToList();
 
                 if (languageCode == null)
                     SyncPinnedRepositoriesFilesTranslationThread(pinnedRepositoriesFileFromGitHub, invariableNames);
                 else
                 {
-                    filePath += $" - {languageCode}";
                     pinnedRepositoriesFileFromGitHub = JsonConvert.DeserializeObject<PinnedRepositoriesFile>(
                         await SyncPinnedRepositoriesFileTranslation(
-                            pinnedRepositoriesFileFromGitHub, languageCode, filePath, invariableNames
+                            pinnedRepositoriesFileFromGitHub, languageCode, invariableNames
                         )
                     );
                 }
@@ -130,13 +121,23 @@ namespace GitHubSyncer.Services
 
             if (languageCode != null)
             {
-                filePath += $" - {languageCode}";
+                filePath = GetS3FilePath(languageCode);
                 pinnedRepositoriesFileFromS3 = await _s3Helper.GetDeserializedS3Object<PinnedRepositoriesFile>(filePath);
             }
 
             return pinnedRepositoriesFileFromS3;
         }
 
+        private static HashSet<string> GetLanguagesFromRepos(PinnedRepositoriesFile pinnedRepositoriesFileFromGitHub)
+        {
+            var languages = new HashSet<string>();
+
+            foreach (var repo in pinnedRepositoriesFileFromGitHub.Data)
+                foreach (var language in repo.Languages)
+                    languages.Add(language.Name);
+
+            return languages;
+        }
 
         private async Task<GetPinnedRepositoriesResponse> GetPinnedRepositories(string login)
         {
@@ -195,12 +196,10 @@ namespace GitHubSyncer.Services
             PinnedRepositoriesFile repositories, List<string> invariableNames
         )
         {
-            var filePath = $"{_gitHubFolderS3Path}/{_pinnedRepositoriesFileName}";
-
-            var putObjectTask = _s3Helper.PutObjToS3AsJson(repositories, filePath);
+            var putObjectTask = _s3Helper.PutObjToS3AsJson(repositories, GetS3FilePath());
 
             var tasks = _targetLanguagesCodeTranslations.Select(
-                targetLanguageCode => SyncPinnedRepositoriesFileTranslation(repositories, targetLanguageCode, filePath, invariableNames)
+                targetLanguageCode => SyncPinnedRepositoriesFileTranslation(repositories, targetLanguageCode, invariableNames)
             );
 
             await putObjectTask;
@@ -210,13 +209,12 @@ namespace GitHubSyncer.Services
         private async Task<string> SyncPinnedRepositoriesFileTranslation(
             PinnedRepositoriesFile repositories
             , string targetLanguageCode
-            , string filePath
             , List<string> invariableNames
         )
         {
             var fileTranslated = await GetPinnedRepositoriesFileTranslation(repositories, targetLanguageCode, invariableNames);
 
-            await _s3Helper.PutObjToS3AsJson(fileTranslated, $"{filePath} - {targetLanguageCode}");
+            await _s3Helper.PutObjToS3AsJson(fileTranslated, GetS3FilePath(targetLanguageCode));
 
             return fileTranslated;
         }
@@ -227,8 +225,6 @@ namespace GitHubSyncer.Services
             , List<string> invariableNames
         )
         {
-            var filePath = $"{_gitHubFolderS3Path}/{_pinnedRepositoriesFileName}";
-
             var dict = await TranslatePropertiesRecursively(
                     repositories,
                     targetLanguageCode,
@@ -311,10 +307,28 @@ namespace GitHubSyncer.Services
 
         private string TextInvariableFormated(string text, IEnumerable<string> invariableNames)
         {
+            invariableNames = invariableNames
+                .Select(name =>
+                    {
+                        if (_fromToInvariableNames.ContainsKey(name.ToUpper()))
+                            return _fromToInvariableNames[name.ToUpper()];
+
+                        return name;
+                    }
+                ).ToList();
+
             if (invariableNames.Any())
                 text = string.Format(text, invariableNames.ToArray());
 
             return text;
+        }
+
+        private string GetS3FilePath(string languageCode = null)
+        {
+            if (languageCode == null)
+                return $"{_gitHubFolderS3Path}/{_pinnedRepositoriesFileName}.json";
+
+            return $"{_gitHubFolderS3Path}/{_pinnedRepositoriesFileName} - {languageCode}.json";
         }
     }
 }

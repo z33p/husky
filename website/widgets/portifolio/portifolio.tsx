@@ -24,7 +24,7 @@ export default function Portfolio({ pinnedRepositoriesFile }: Props) {
                 name={repo.name}
                 description={repo.description}
                 languages={languagens}
-                url=""
+                url={repo.url}
                 className="pb-4"
               />
             );

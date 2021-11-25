@@ -5,6 +5,7 @@ export default interface PinnedRepositoriesFile {
 export interface GitHubRepository {
     name: string;
     description: string;
+    url: string;
     languages: Array<GitHubLanguage>;
 }
 

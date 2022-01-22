@@ -39,8 +39,8 @@ namespace GitHubSyncer.Services
         {
             "PT"
         };
-        private readonly List<string> _invariableNames = new List<string>();
-        private readonly Dictionary<string, string> _fromToInvariableNames = new Dictionary<string, string>
+        private readonly List<string> _invariableNamesList = new List<string>();
+        private readonly Dictionary<string, string> _fromToinvariableNamesList = new Dictionary<string, string>
         {
             {"HUSKY", "Husky"},
             {"ONE-STUDY-MOBILE", "One Study"},
@@ -100,18 +100,19 @@ namespace GitHubSyncer.Services
             {
                 var pinnedRepositoriesFileFromGitHub = (await GetPinnedRepositories(_appSettings.GitHub.Login)).ToS3FileFormat();
 
-                var invariableNames = new HashSet<string>(_invariableNames)
+                var invariableNamesSet = new HashSet<string>(_invariableNamesList)
                     .Union(pinnedRepositoriesFileFromGitHub.Data.Select(repo => repo.Name))
+                    .Union(pinnedRepositoriesFileFromGitHub.Data.Select(repo => repo.Url))
                     .Union(GetLanguagesFromRepos(pinnedRepositoriesFileFromGitHub))
                     .ToList();
 
                 if (languageCode == null)
-                    SyncPinnedRepositoriesFilesTranslationThread(pinnedRepositoriesFileFromGitHub, invariableNames);
+                    SyncPinnedRepositoriesFilesTranslationThread(pinnedRepositoriesFileFromGitHub, invariableNamesSet);
                 else
                 {
                     pinnedRepositoriesFileFromGitHub = JsonConvert.DeserializeObject<PinnedRepositoriesFile>(
                         await SyncPinnedRepositoriesFileTranslation(
-                            pinnedRepositoriesFileFromGitHub, languageCode, invariableNames
+                            pinnedRepositoriesFileFromGitHub, languageCode, invariableNamesSet
                         )
                     );
                 }
@@ -182,24 +183,26 @@ namespace GitHubSyncer.Services
 
 
         private void SyncPinnedRepositoriesFilesTranslationThread(
-            PinnedRepositoriesFile pinnedRepositoriesFileFromGitHub, List<string> invariableNames
+            PinnedRepositoriesFile pinnedRepositoriesFileFromGitHub
+            , List<string> invariableNamesList
         )
         {
             new Thread(
                 new ThreadStart(
-                    async () => await SyncPinnedRepositoriesFilesTranslation(pinnedRepositoriesFileFromGitHub, invariableNames)
+                    async () => await SyncPinnedRepositoriesFilesTranslation(pinnedRepositoriesFileFromGitHub, invariableNamesList)
                 )
             ).Start();
         }
 
         private async Task SyncPinnedRepositoriesFilesTranslation(
-            PinnedRepositoriesFile repositories, List<string> invariableNames
+            PinnedRepositoriesFile repositories
+            , List<string> invariableNamesList
         )
         {
             var putObjectTask = _s3Helper.PutObjToS3AsJson(repositories, GetS3FilePath());
 
             var tasks = _targetLanguagesCodeTranslations.Select(
-                targetLanguageCode => SyncPinnedRepositoriesFileTranslation(repositories, targetLanguageCode, invariableNames)
+                targetLanguageCode => SyncPinnedRepositoriesFileTranslation(repositories, targetLanguageCode, invariableNamesList)
             );
 
             await putObjectTask;
@@ -209,10 +212,10 @@ namespace GitHubSyncer.Services
         private async Task<string> SyncPinnedRepositoriesFileTranslation(
             PinnedRepositoriesFile repositories
             , string targetLanguageCode
-            , List<string> invariableNames
+            , List<string> invariableNamesList
         )
         {
-            var fileTranslated = await GetPinnedRepositoriesFileTranslation(repositories, targetLanguageCode, invariableNames);
+            var fileTranslated = await GetPinnedRepositoriesFileTranslation(repositories, targetLanguageCode, invariableNamesList);
 
             await _s3Helper.PutObjToS3AsJson(fileTranslated, GetS3FilePath(targetLanguageCode));
 
@@ -222,20 +225,20 @@ namespace GitHubSyncer.Services
         private async Task<string> GetPinnedRepositoriesFileTranslation(
             PinnedRepositoriesFile repositories
             , string targetLanguageCode
-            , List<string> invariableNames
+            , List<string> invariableNamesList
         )
         {
             var dict = await TranslatePropertiesRecursively(
                     repositories,
                     targetLanguageCode,
-                    invariableNames
+                    invariableNamesList
                 );
 
             return JsonConvert.SerializeObject(dict);
         }
 
         private async Task<IDictionary<string, object>> TranslatePropertiesRecursively(
-            object obj, string targetLanguageCode, IEnumerable<string> invariableNames
+            object obj, string targetLanguageCode, IEnumerable<string> invariableNamesList
         )
         {
             var dict = obj
@@ -256,8 +259,12 @@ namespace GitHubSyncer.Services
                 {
                     var text = value as string;
 
-                    List<string> replacedNames;
-                    text = TextInvariableFormating(text, invariableNames, out replacedNames);
+                    List<string> replacedNamesList;
+                    text = TextInvariableFormating(text, invariableNamesList, out replacedNamesList);
+
+                    // When it's only one word and this word is in the invariable set this word don't need to be translated
+                    if (text == "{0}")
+                        continue;
 
                     var awsTranslateResponse = await _awsTranslate.TranslateTextAsync(
                         new TranslateTextRequest
@@ -268,13 +275,13 @@ namespace GitHubSyncer.Services
                         }
                     );
 
-                    dict[key] = TextInvariableFormated(awsTranslateResponse.TranslatedText, replacedNames);
+                    dict[key] = TextInvariableFormated(awsTranslateResponse.TranslatedText, replacedNamesList);
                 }
                 else if (value is IEnumerable<object>)
                 {
                     var enumerable = value as IEnumerable<object>;
 
-                    var tasks = enumerable.Select(item => TranslatePropertiesRecursively(item, targetLanguageCode, invariableNames));
+                    var tasks = enumerable.Select(item => TranslatePropertiesRecursively(item, targetLanguageCode, invariableNamesList));
 
                     await Task.WhenAll(tasks);
 
@@ -282,43 +289,41 @@ namespace GitHubSyncer.Services
                 }
                 else if (!value.GetType().IsPrimitive || value.GetType() != typeof(decimal))
                 {
-                    dict[key] = await TranslatePropertiesRecursively(value, targetLanguageCode, invariableNames);
+                    dict[key] = await TranslatePropertiesRecursively(value, targetLanguageCode, invariableNamesList);
                 }
             };
 
             return dict;
         }
 
-        private string TextInvariableFormating(string text, IEnumerable<string> invariableNames, out List<string> replacedNames)
+        private string TextInvariableFormating(string text, IEnumerable<string> invariableNameList, out List<string> replacedNamesList)
         {
-            replacedNames = new List<string>();
+            replacedNamesList = new List<string>();
 
-            foreach (var invariableName in invariableNames)
-            {
-                if (text.Contains(invariableName))
-                {
-                    text = text.Replace(invariableName, $"{{{replacedNames.Count}}}");
-                    replacedNames.Add(invariableName);
-                }
-            }
+            var textArr = text.Split(' ');
 
-            return text;
+            for (var i = 0; i < textArr.Count(); i++)
+                foreach (var invariableName in invariableNameList)
+                    if (textArr[i] == invariableName)
+                        textArr[i] = $"{{{replacedNamesList.Count}}}";
+
+            return string.Join(' ', textArr);
         }
 
-        private string TextInvariableFormated(string text, IEnumerable<string> invariableNames)
+        private string TextInvariableFormated(string text, IEnumerable<string> invariableNamesList)
         {
-            invariableNames = invariableNames
+            invariableNamesList = invariableNamesList
                 .Select(name =>
                     {
-                        if (_fromToInvariableNames.ContainsKey(name.ToUpper()))
-                            return _fromToInvariableNames[name.ToUpper()];
+                        if (_fromToinvariableNamesList.ContainsKey(name.ToUpper()))
+                            return _fromToinvariableNamesList[name.ToUpper()];
 
                         return name;
                     }
                 ).ToList();
 
-            if (invariableNames.Any())
-                text = string.Format(text, invariableNames.ToArray());
+            if (invariableNamesList.Any())
+                text = string.Format(text, invariableNamesList.ToArray());
 
             return text;
         }

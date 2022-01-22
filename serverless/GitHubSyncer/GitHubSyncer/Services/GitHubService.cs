@@ -313,26 +313,31 @@ namespace GitHubSyncer.Services
             for (var i = 0; i < textArr.Count(); i++)
                 foreach (var invariableName in invariableNameList)
                     if (textArr[i] == invariableName)
+                    {
                         textArr[i] = $"{{{replacedNamesList.Count}}}";
+                        replacedNamesList.Add(invariableName);
+                    }
 
             return string.Join(' ', textArr);
         }
 
         private string TextInvariableFormated(string text, IEnumerable<string> invariableNamesList)
         {
-            invariableNamesList = invariableNamesList
-                .Select(name =>
-                    {
-                        if (_fromToinvariableNamesList.ContainsKey(name.ToUpper()))
-                            return _fromToinvariableNamesList[name.ToUpper()];
-
-                        return name;
-                    }
-                ).ToList();
-
             if (invariableNamesList.Any())
-                text = string.Format(text, invariableNamesList.ToArray());
+            {
+                invariableNamesList = invariableNamesList
+                    .Select(name =>
+                        {
+                            if (_fromToinvariableNamesList.ContainsKey(name.ToUpper()))
+                                return _fromToinvariableNamesList[name.ToUpper()];
 
+                            return name;
+                        }
+                    ).ToList();
+
+                text = string.Format(text, invariableNamesList.ToArray());
+            }
+            
             return text;
         }
 

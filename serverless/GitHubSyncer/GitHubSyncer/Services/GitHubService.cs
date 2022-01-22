@@ -39,7 +39,15 @@ namespace GitHubSyncer.Services
         {
             "PT"
         };
-        private readonly List<string> _invariableNamesList = new List<string>();
+        private readonly List<string> _invariableNamesList = new List<string>
+        {
+            // todos_server
+            "TODO",
+
+            // AuthServer
+            "access tokens",
+            "refresh tokens"
+        };
         private readonly Dictionary<string, string> _fromToinvariableNamesList = new Dictionary<string, string>
         {
             {"HUSKY", "Husky"},

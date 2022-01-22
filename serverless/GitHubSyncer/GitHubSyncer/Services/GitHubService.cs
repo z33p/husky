@@ -102,6 +102,7 @@ namespace GitHubSyncer.Services
 
                 var invariableNames = new HashSet<string>(_invariableNames)
                     .Union(pinnedRepositoriesFileFromGitHub.Data.Select(repo => repo.Name))
+                    .Union(pinnedRepositoriesFileFromGitHub.Data.Select(repo => repo.Url))
                     .Union(GetLanguagesFromRepos(pinnedRepositoriesFileFromGitHub))
                     .ToList();
 

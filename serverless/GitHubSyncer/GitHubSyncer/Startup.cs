@@ -53,6 +53,8 @@ namespace GitHubSyncer
             // AWS - Region Generic
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonS3>();
+
+            services.AddSwaggerGen();
         }
 
         private static void ConfigureAppEnvironment(IServiceCollection services)
@@ -72,6 +74,9 @@ namespace GitHubSyncer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();

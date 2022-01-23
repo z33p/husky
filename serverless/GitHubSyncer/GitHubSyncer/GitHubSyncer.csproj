@@ -13,5 +13,6 @@
     <PackageReference Include="AWSSDK.Translate" Version="3.7.0.49" />
     <PackageReference Include="GraphQL.Client" Version="3.2.4" />
     <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="3.2.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 </Project>

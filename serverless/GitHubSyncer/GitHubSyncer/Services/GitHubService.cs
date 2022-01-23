@@ -272,7 +272,10 @@ namespace GitHubSyncer.Services
 
                     // When it's only one word and this word is in the invariable set this word don't need to be translated
                     if (text == "{0}")
+                    {
+                        dict[key] = TextInvariableFormated(text, replacedNamesList);
                         continue;
+                    }
 
                     var awsTranslateResponse = await _awsTranslate.TranslateTextAsync(
                         new TranslateTextRequest
@@ -328,8 +331,10 @@ namespace GitHubSyncer.Services
                 invariableNamesList = invariableNamesList
                     .Select(name =>
                         {
-                            if (_fromToinvariableNamesList.ContainsKey(name.ToUpper()))
-                                return _fromToinvariableNamesList[name.ToUpper()];
+                            var nameUpper = name.ToUpper();
+
+                            if (_fromToinvariableNamesList.ContainsKey(nameUpper))
+                                return _fromToinvariableNamesList[nameUpper];
 
                             return name;
                         }

@@ -11,7 +11,7 @@ export default function AboutMe() {
     <Section id="about-me" title="Sobre mim">
       <div className="text-justify" style={textStyle}>
         <p className="lg:text-lg">
-          Ob-La-Di, Ob-La-Da, meu nome é Raphael sou desenvolvedor de software
+          Olá, meu nome é Raphael sou desenvolvedor de software
           full stack com experiência profissional com .NET Framework, React e
           Django. Além de me aventurar no desenvolvimento mobile durante meu
           tempo livre utilizando Flutter nos meus projetos pessoais. Vale

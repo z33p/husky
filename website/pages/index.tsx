@@ -1,7 +1,7 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import React from "react";
 import PinnedRepositoriesFile from "../lib/contracts/external/pinned_repositories_file";
-import GitHubSyncerService from "../lib/services/github_syncer_service";
+import GitHubSyncerBusiness from "../lib/business/github_syncer_business";
 import AboutMe from "../widgets/about_me";
 import Contact from "../widgets/contact/contact";
 import Curriculum from "../widgets/curriculum";
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async (context) => {
-  const gitHubSyncer = new GitHubSyncerService();
+  const gitHubSyncer = new GitHubSyncerBusiness();
 
   const pinnedRepositoriesFile = await gitHubSyncer.getPinnedRepositories();
 
@@ -32,7 +32,7 @@ export default function index(
     <Layout>
       <Banner />
       <AboutMe />
-      <Portfolio pinnedRepositoriesFile={props.pinnedRepositoriesFile}/>
+      <Portfolio pinnedRepositoriesFile={props.pinnedRepositoriesFile} />
       <Contact />
       <Curriculum />
     </Layout>

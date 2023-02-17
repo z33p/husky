@@ -1,6 +1,6 @@
 import { CustomEvents } from "./ga_events";
 
-export default class GoogleAnalyticsService {
+export default class GoogleAnalyticsBusiness {
     public static GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID ?? "";
 
     // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
@@ -9,7 +9,7 @@ export default class GoogleAnalyticsService {
             page_path: url,
         };
 
-        window.gtag("config", GoogleAnalyticsService.GA_TRACKING_ID, gtagConfig)
+        window.gtag("config", GoogleAnalyticsBusiness.GA_TRACKING_ID, gtagConfig)
     }
 
     // https://developers.google.com/analytics/devguides/collection/gtagjs/events

@@ -3,7 +3,7 @@ import "../styles/headings.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/dist/client/router";
 import { MutableRefObject, useEffect } from "react";
-import GoogleAnalyticsService from "../lib/services/google_analytics/google_analytics_service";
+import GoogleAnalyticsBusiness from "../lib/business/google_analytics/google_analytics_business";
 import React from "react";
 
 interface AppContext {
@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      GoogleAnalyticsService.pageview(url);
+      GoogleAnalyticsBusiness.pageview(url);
     };
 
     router.events.on("routeChangeComplete", handleRouteChange);

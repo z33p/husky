@@ -1,10 +1,10 @@
 import React from "react";
-import GoogleAnalyticsService from "../lib/services/google_analytics/google_analytics_service";
+import GoogleAnalyticsBusiness from "../lib/business/google_analytics/google_analytics_business";
 import Section from "./section/section";
 import Button from "./shared/button";
 
 export default function Curriculum() {
-  const googleAnalyticsService = new GoogleAnalyticsService();
+  const googleAnalyticsBusiness = new GoogleAnalyticsBusiness();
 
   return (
     <Section id="curriculum" title="Currículo" className="pb-6" applyDivider>
@@ -16,7 +16,7 @@ export default function Curriculum() {
               target="_blank"
               className=""
               rel="noreferrer"
-              onClick={() => googleAnalyticsService.triggerDownloadCurriculum()}
+              onClick={() => googleAnalyticsBusiness.triggerDownloadCurriculum()}
             >
               Abrir PDF
             </a>

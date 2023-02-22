@@ -3,7 +3,7 @@ import "../styles/headings.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/dist/client/router";
 import { MutableRefObject, useEffect, useState } from "react";
-import GoogleAnalyticsBusiness from "../lib/business/google_analytics/google_analytics_business";
+import GoogleAnalyticsService from "../lib/services/google_analytics/google_analytics_service";
 import React from "react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      GoogleAnalyticsBusiness.pageview(url);
+      GoogleAnalyticsService.pageview(url);
     };
 
     router.events.on("routeChangeComplete", handleRouteChange);

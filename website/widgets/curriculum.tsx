@@ -1,10 +1,10 @@
 import React from "react";
-import GoogleAnalyticsBusiness from "../lib/business/google_analytics/google_analytics_business";
+import GoogleAnalyticsService from "../lib/services/google_analytics/google_analytics_service";
 import Section from "./section/section";
 import Button from "./shared/button";
 
 export default function Curriculum() {
-  const googleAnalyticsBusiness = new GoogleAnalyticsBusiness();
+  const googleAnalyticsBusiness = new GoogleAnalyticsService();
 
   return (
     <Section id="curriculum" title="Currículo" className="pb-6" applyDivider>

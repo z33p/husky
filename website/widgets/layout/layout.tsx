@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import ScrollBackTopBtn from "../scroll_back_top_btn";
 import Nav from "./nav";
-import GoogleAnalyticsBusiness from "../../lib/business/google_analytics/google_analytics_business";
+import GoogleAnalyticsService from "../../lib/services/google_analytics/google_analytics_service";
 import Footer from "./footer";
 
 interface Props {
@@ -22,7 +22,7 @@ const Layout = ({ children }: Props) => {
 
         <script
           async
-          src={`https://www.googletagmanager.com/gtag/js?id=${GoogleAnalyticsBusiness.GA_TRACKING_ID}`}
+          src={`https://www.googletagmanager.com/gtag/js?id=${GoogleAnalyticsService.GA_TRACKING_ID}`}
         />
 
         <script
@@ -31,7 +31,7 @@ const Layout = ({ children }: Props) => {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${GoogleAnalyticsBusiness.GA_TRACKING_ID}', {
+            gtag('config', '${GoogleAnalyticsService.GA_TRACKING_ID}', {
               page_path: window.location.pathname,
             });
           `,

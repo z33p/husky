@@ -8,7 +8,7 @@ export default function Login() {
   const session = useSession();
   const supabase = useSupabaseClient();
 
-  const redirectRoute = "/restricted/chat-gpt";
+  const redirectRoute = "/restricted/rest-screen";
 
   if (session) {
     router.replace(redirectRoute);

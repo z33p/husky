@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubSyncer", "GitHubSyncer\GitHubSyncer.csproj", "{ED9FDB2C-6494-4ED9-A2A6-702DA0A11BE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GithubSyncer", "GithubSyncer\GithubSyncer.csproj", "{ED9FDB2C-6494-4ED9-A2A6-702DA0A11BE5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubSyncer.Tests", "GitHubSyncer.Tests\GitHubSyncer.Tests.csproj", "{2FB6A764-499B-4149-8BBA-7406AADDD669}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GithubSyncer.Tests", "GithubSyncer.Tests\GithubSyncer.Tests.csproj", "{2FB6A764-499B-4149-8BBA-7406AADDD669}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,8 +4,8 @@ namespace GithubSyncer.Contracts
 {
     public class ExternalRoutes : IExternalRoutes
     {
-        public string GitHubApiGraphQL { get; } = "https://api.github.com/graphql";
-        
-        
+        public string GithubApiGraphQL { get; } = "https://api.github.com/graphql";
+
+
     }
 }

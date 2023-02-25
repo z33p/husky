@@ -3,8 +3,8 @@
   "Transform": "AWS::Serverless-2016-10-31",
   "Description": "An AWS Serverless Application that uses the ASP.NET Core framework running in Amazon Lambda.",
   "Parameters": {
-    "GitHubAccessToken": {
-      "Description": "Access token to use as authenticated user in GitHub API",
+    "GithubAccessToken": {
+      "Description": "Access token to use as authenticated user in Github API",
       "Type": "String"
     }
   },
@@ -13,8 +13,8 @@
     "AspNetCoreFunction": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
-        "FunctionName": "GitHubSyncer",
-        "Handler": "GitHubSyncer::GitHubSyncer.LambdaEntryPoint::FunctionHandlerAsync",
+        "FunctionName": "GithubSyncer",
+        "Handler": "GithubSyncer::GithubSyncer.LambdaEntryPoint::FunctionHandlerAsync",
         "Runtime": "dotnet6",
         "CodeUri": "",
         "MemorySize": 256,
@@ -23,7 +23,7 @@
         "Environment": {
           "Variables": {
             "GITHUB_ACCESS_TOKEN": {
-              "Ref": "GitHubAccessToken"
+              "Ref": "GithubAccessToken"
             }
           }
         },

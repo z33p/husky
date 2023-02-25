@@ -1,6 +1,6 @@
-namespace GithubSyncer.Contracts.External.GitHub.Responses.Shared
+namespace GithubSyncer.Contracts.External.Github.Responses.Shared
 {
-    public class GitHubNode<T>
+    public class GithubNode<T>
     {
         public T Node { get; set; }
     }

@@ -1,6 +1,6 @@
-namespace GithubSyncer.Contracts.External.GitHub
+namespace GithubSyncer.Contracts.External.Github
 {
-    public class GitHubLanguage
+    public class GithubLanguage
     {
         public string Name { get; set; }
 

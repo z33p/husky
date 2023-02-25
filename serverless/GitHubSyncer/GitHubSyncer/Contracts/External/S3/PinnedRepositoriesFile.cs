@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using GithubSyncer.Contracts.External.GitHub;
+using GithubSyncer.Contracts.External.Github;
 
 namespace GithubSyncer.Contracts.External.S3
 {
     public class PinnedRepositoriesFile
     {
-        public IEnumerable<GitHubRepository> Data { get; set; }
+        public IEnumerable<GithubRepository> Data { get; set; }
 
-        public class GitHubRepository
+        public class GithubRepository
         {
             public string Name { get; set; }
 
@@ -15,7 +15,7 @@ namespace GithubSyncer.Contracts.External.S3
 
             public string Description { get; set; }
 
-            public IEnumerable<GitHubLanguage> Languages { get; set; }
+            public IEnumerable<GithubLanguage> Languages { get; set; }
         }
     }
 }

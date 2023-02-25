@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 
-namespace GithubSyncer.Contracts.External.GitHub.Responses.Shared
+namespace GithubSyncer.Contracts.External.Github.Responses.Shared
 {
 
     public class PinnedItems<T>
     {
-        public List<GitHubNode<T>> Edges { get; set; }
+        public List<GithubNode<T>> Edges { get; set; }
     }
 }

@@ -11,10 +11,10 @@ using Amazon.Lambda.APIGatewayEvents;
 
 using Newtonsoft.Json;
 
-using GitHubSyncer;
+using GithubSyncer;
 
 
-namespace GitHubSyncer.Tests
+namespace GithubSyncer.Tests
 {
     public class ValuesControllerTests
     {

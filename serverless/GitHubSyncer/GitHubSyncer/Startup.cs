@@ -7,8 +7,7 @@ using GithubSyncer.Contracts.Shared;
 using GithubSyncer.Handlers;
 using GithubSyncer.Helpers.Shared;
 using GithubSyncer.Services.Shared;
-using GitHubSyncer.Contracts;
-using GitHubSyncer.Services;
+using GithubSyncer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace GitHubSyncer
+namespace GithubSyncer
 {
     public class Startup
     {
@@ -39,7 +38,7 @@ namespace GitHubSyncer
             services.AddSingleton<IS3Helper, S3Helper>();
 
             // Services
-            services.AddScoped<IGitHubService, GitHubService>();
+            services.AddScoped<IGithubService, GithubService>();
 
             // Controllers
             services.AddControllers();
@@ -59,10 +58,10 @@ namespace GitHubSyncer
 
         private static void ConfigureAppEnvironment(IServiceCollection services)
         {
-            var gitHubAccessToken = Environment.GetEnvironmentVariable("GITHUB_ACCESS_TOKEN");
+            var githubAccessToken = Environment.GetEnvironmentVariable("GITHUB_ACCESS_TOKEN");
 
             var appEnvironment = new AppEnvironment(
-                gitHubAccessToken: gitHubAccessToken
+                githubAccessToken: githubAccessToken
             );
 
             services.AddSingleton<AppEnvironment>(appEnvironment);

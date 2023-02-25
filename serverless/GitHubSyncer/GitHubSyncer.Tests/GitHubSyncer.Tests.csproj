@@ -26,6 +26,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GitHubSyncer\GitHubSyncer.csproj" />
+    <ProjectReference Include="..\GithubSyncer\GithubSyncer.csproj" />
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace GithubSyncer.Contracts.External.GitHub.Responses.Shared
+namespace GithubSyncer.Contracts.External.Github.Responses.Shared
 {
-    public class GitHubNodes<T>
+    public class GithubNodes<T>
     {
         public IEnumerable<T> Nodes { get; set; }
 

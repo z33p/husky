@@ -2,11 +2,11 @@ namespace GithubSyncer.Contracts
 {
     public class AppEnvironment
     {
-        public readonly string GitHubAccessToken;
+        public readonly string GithubAccessToken;
 
-        public AppEnvironment(string gitHubAccessToken)
+        public AppEnvironment(string githubAccessToken)
         {
-            GitHubAccessToken = gitHubAccessToken;
+            GithubAccessToken = githubAccessToken;
         }
     }
 }

@@ -9,21 +9,20 @@ using Amazon.S3;
 using Amazon.Translate;
 using Amazon.Translate.Model;
 using GithubSyncer.Contracts;
-using GithubSyncer.Contracts.External.GitHub.Responses;
+using GithubSyncer.Contracts.External.Github.Responses;
 using GithubSyncer.Contracts.External.S3;
 using GithubSyncer.Contracts.Shared;
 using GithubSyncer.Helpers.Shared;
 using GithubSyncer.Services.Shared;
-using GitHubSyncer.Contracts;
 using GraphQL;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
-namespace GitHubSyncer.Services
+namespace GithubSyncer.Services
 {
-    public class GitHubService : IGitHubService
+    public class GithubService : IGithubService
     {
         public readonly IAmazonS3 _s3;
         private readonly IS3Helper _s3Helper;
@@ -33,7 +32,7 @@ namespace GitHubSyncer.Services
         private readonly GraphQLHttpClient _githubGraphQLClient;
         private readonly IAmazonTranslate _awsTranslate;
 
-        private const string _gitHubFolderS3Path = "GitHub";
+        private const string _githubFolderS3Path = "Github";
         private const string _pinnedRepositoriesFileName = "pinned_repositories";
         private readonly string[] _targetLanguagesCodeTranslations = new string[]
         {
@@ -56,7 +55,7 @@ namespace GitHubSyncer.Services
             {"TODOS_SERVER", "TODO's Server"},
         };
 
-        public GitHubService(
+        public GithubService(
             IOptions<AppSettings> appSettings
             , AppEnvironment appEnvironment
             , IExternalRoutes externalRoutes
@@ -70,21 +69,21 @@ namespace GitHubSyncer.Services
             _appEnvironment = appEnvironment;
             _externalRoutes = externalRoutes;
 
-            _githubGraphQLClient = GetGraphQLHttpClient(_appEnvironment.GitHubAccessToken, _externalRoutes.GitHubApiGraphQL);
+            _githubGraphQLClient = GetGraphQLHttpClient(_appEnvironment.GithubAccessToken, _externalRoutes.GithubApiGraphQL);
 
             _s3Helper = s3Helper;
             _awsTranslate = awsTranslate;
         }
 
-        private GraphQLHttpClient GetGraphQLHttpClient(string gitHubAccessToken, string gitHubApiGraphQL)
+        private GraphQLHttpClient GetGraphQLHttpClient(string githubAccessToken, string githubApiGraphQL)
         {
             var httpClient = new HttpClient();
 
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", gitHubAccessToken);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", githubAccessToken);
 
             var graphQLOptions = new GraphQLHttpClientOptions
             {
-                EndPoint = new Uri(gitHubApiGraphQL)
+                EndPoint = new Uri(githubApiGraphQL)
             };
 
             return new GraphQLHttpClient(graphQLOptions, new NewtonsoftJsonSerializer(), httpClient);
@@ -106,26 +105,26 @@ namespace GitHubSyncer.Services
 
             if (totalMinutesAfterModified > 30)
             {
-                var pinnedRepositoriesFileFromGitHub = (await GetPinnedRepositories(_appSettings.GitHub.Login)).ToS3FileFormat();
+                var pinnedRepositoriesFileFromGithub = (await GetPinnedRepositories(_appSettings.Github.Login)).ToS3FileFormat();
 
                 var invariableNamesSet = new HashSet<string>(_invariableNamesList)
-                    .Union(pinnedRepositoriesFileFromGitHub.Data.Select(repo => repo.Name))
-                    .Union(pinnedRepositoriesFileFromGitHub.Data.Select(repo => repo.Url))
-                    .Union(GetLanguagesFromRepos(pinnedRepositoriesFileFromGitHub))
+                    .Union(pinnedRepositoriesFileFromGithub.Data.Select(repo => repo.Name))
+                    .Union(pinnedRepositoriesFileFromGithub.Data.Select(repo => repo.Url))
+                    .Union(GetLanguagesFromRepos(pinnedRepositoriesFileFromGithub))
                     .ToList();
 
                 if (languageCode == null)
-                    SyncPinnedRepositoriesFilesTranslationThread(pinnedRepositoriesFileFromGitHub, invariableNamesSet);
+                    SyncPinnedRepositoriesFilesTranslationThread(pinnedRepositoriesFileFromGithub, invariableNamesSet);
                 else
                 {
-                    pinnedRepositoriesFileFromGitHub = JsonConvert.DeserializeObject<PinnedRepositoriesFile>(
+                    pinnedRepositoriesFileFromGithub = JsonConvert.DeserializeObject<PinnedRepositoriesFile>(
                         await SyncPinnedRepositoriesFileTranslation(
-                            pinnedRepositoriesFileFromGitHub, languageCode, invariableNamesSet
+                            pinnedRepositoriesFileFromGithub, languageCode, invariableNamesSet
                         )
                     );
                 }
 
-                return pinnedRepositoriesFileFromGitHub;
+                return pinnedRepositoriesFileFromGithub;
             }
 
             if (languageCode != null)
@@ -137,11 +136,11 @@ namespace GitHubSyncer.Services
             return pinnedRepositoriesFileFromS3;
         }
 
-        private static HashSet<string> GetLanguagesFromRepos(PinnedRepositoriesFile pinnedRepositoriesFileFromGitHub)
+        private static HashSet<string> GetLanguagesFromRepos(PinnedRepositoriesFile pinnedRepositoriesFileFromGithub)
         {
             var languages = new HashSet<string>();
 
-            foreach (var repo in pinnedRepositoriesFileFromGitHub.Data)
+            foreach (var repo in pinnedRepositoriesFileFromGithub.Data)
                 foreach (var language in repo.Languages)
                     languages.Add(language.Name);
 
@@ -191,13 +190,13 @@ namespace GitHubSyncer.Services
 
 
         private void SyncPinnedRepositoriesFilesTranslationThread(
-            PinnedRepositoriesFile pinnedRepositoriesFileFromGitHub
+            PinnedRepositoriesFile pinnedRepositoriesFileFromGithub
             , List<string> invariableNamesList
         )
         {
             new Thread(
                 new ThreadStart(
-                    async () => await SyncPinnedRepositoriesFilesTranslation(pinnedRepositoriesFileFromGitHub, invariableNamesList)
+                    async () => await SyncPinnedRepositoriesFilesTranslation(pinnedRepositoriesFileFromGithub, invariableNamesList)
                 )
             ).Start();
         }
@@ -342,16 +341,16 @@ namespace GitHubSyncer.Services
 
                 text = string.Format(text, invariableNamesList.ToArray());
             }
-            
+
             return text;
         }
 
         private string GetS3FilePath(string languageCode = null)
         {
             if (languageCode == null)
-                return $"{_gitHubFolderS3Path}/{_pinnedRepositoriesFileName}.json";
+                return $"{_githubFolderS3Path}/{_pinnedRepositoriesFileName}.json";
 
-            return $"{_gitHubFolderS3Path}/{_pinnedRepositoriesFileName} - {languageCode}.json";
+            return $"{_githubFolderS3Path}/{_pinnedRepositoriesFileName} - {languageCode}.json";
         }
     }
 }

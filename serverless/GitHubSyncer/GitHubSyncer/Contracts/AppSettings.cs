@@ -1,8 +1,8 @@
-namespace GitHubSyncer.Contracts
+namespace GithubSyncer.Contracts
 {
     public class AppSettings
     {
-        public GitHubSettings GitHub { get; set; }
+        public GithubSettings Github { get; set; }
         public S3Buckets Buckets { get; set; }
 
         public class S3Buckets
@@ -11,7 +11,7 @@ namespace GitHubSyncer.Contracts
 
         }
 
-        public class GitHubSettings
+        public class GithubSettings
         {
             public string Login { get; set; }
 

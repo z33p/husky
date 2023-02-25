@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
 using GithubSyncer.Helpers.Shared;
-using GitHubSyncer.Contracts;
+using GithubSyncer.Contracts;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 

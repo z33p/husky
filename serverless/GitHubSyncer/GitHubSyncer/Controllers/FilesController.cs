@@ -3,23 +3,22 @@ using Amazon.S3;
 using GithubSyncer.Contracts;
 using GithubSyncer.Contracts.External.S3;
 using GithubSyncer.Services.Shared;
-using GitHubSyncer.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace GitHubSyncer.Controllers
+namespace GithubSyncer.Controllers
 {
     [Route(AppRoutes.FilesController.Root)]
     public class FilesController : ControllerBase
     {
         private readonly AppSettings _appSettings;
-        private readonly IGitHubService _gitHubService;
+        private readonly IGithubService _githubService;
         private readonly IAmazonS3 _s3;
 
-        public FilesController(IOptions<AppSettings> appSettings, IGitHubService gitHubService, IAmazonS3 s3)
+        public FilesController(IOptions<AppSettings> appSettings, IGithubService githubService, IAmazonS3 s3)
         {
             _appSettings = appSettings.Value;
-            _gitHubService = gitHubService;
+            _githubService = githubService;
             _s3 = s3;
         }
 
@@ -27,7 +26,7 @@ namespace GitHubSyncer.Controllers
         [Route(AppRoutes.FilesController.PinnedRepositories)]
         public async Task<PinnedRepositoriesFile> PinnedRepositories()
         {
-            var pinnedRepositoriesFile = await _gitHubService.GetAndSyncPinnedRepositoriesFile();
+            var pinnedRepositoriesFile = await _githubService.GetAndSyncPinnedRepositoriesFile();
 
             return pinnedRepositoriesFile;
         }
@@ -36,7 +35,7 @@ namespace GitHubSyncer.Controllers
         [Route(AppRoutes.FilesController.PinnedRepositoriesPerLanguageCode)]
         public async Task<PinnedRepositoriesFile> PinnedRepositories([FromRoute] string languageCode)
         {
-            var pinnedRepositoriesFile = await _gitHubService.GetAndSyncPinnedRepositoriesFile(languageCode);
+            var pinnedRepositoriesFile = await _githubService.GetAndSyncPinnedRepositoriesFile(languageCode);
 
             return pinnedRepositoriesFile;
         }

@@ -9,7 +9,7 @@
     "region": "sa-east-1",
     "configuration": "Release",
     "framework": "net6",
-    "s3-prefix": "GitHubSyncer/",
+    "s3-prefix": "GithubSyncer/",
     "template": "serverless.template",
     "template-parameters": "",
     "s3-bucket": "my-code-base",

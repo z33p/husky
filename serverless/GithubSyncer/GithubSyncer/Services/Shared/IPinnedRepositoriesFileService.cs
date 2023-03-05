@@ -1,9 +1,9 @@
 using GithubSyncer.Contracts.External.S3;
 
-namespace GithubSyncer.Services.Shared
+namespace GithubSyncer.Services.Shared;
+
+public interface IPinnedRepositoriesFileService
 {
-    public interface IPinnedRepositoriesFileService
-    {
-        Task<PinnedRepositoriesFile> GetAndSyncPinnedRepositoriesFile();
-    }
+    Task<PinnedRepositoriesFile> GetPinnedRepositoriesFile();
+    Task<PinnedRepositoriesFile> GetPinnedRepositoriesFile(string languageCode);
 }

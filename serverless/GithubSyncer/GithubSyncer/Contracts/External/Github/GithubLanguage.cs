@@ -2,12 +2,6 @@ namespace GithubSyncer.Contracts.External.Github;
 
 public class GithubLanguage
 {
-    public GithubLanguage(string name, string color)
-    {
-        Name = name;
-        Color = color;
-    }
-
-    public string Name { get; set; }
-    public string Color { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Color { get; set; } = string.Empty;
 }

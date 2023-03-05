@@ -24,30 +24,23 @@ public class GetPinnedRepositoriesResponse
 
     public class GithubRepository
     {
-        public GithubRepository(string name, string url, string description, GithubNodes<GithubLanguage> languages)
-        {
-            Name = name;
-            Url = url;
-            Description = description;
-            Languages = languages;
-        }
+        public string Name { get; set; } = string.Empty;
 
-        public string Name { get; set; }
+        public string Url { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
 
-        public string Url { get; set; }
-        public string Description { get; set; }
-
-        public GithubNodes<GithubLanguage> Languages { get; set; }
+        public GithubNodes<GithubLanguage> Languages { get; set; } = new();
     }
 
     public PinnedRepositoriesFile ToS3FileFormat()
     {
-        var repositories = this.User.PinnedItems.Edges.Select(e => new PinnedRepositoriesFile.GithubRepository(
-            e.Node.Name,
-            e.Node.Url,
-            e.Node.Description,
-            e.Node.Languages.Nodes
-        ));
+        var repositories = this.User.PinnedItems.Edges.Select(e => new PinnedRepositoriesFile.GithubRepository
+        {
+            Name = e.Node.Name,
+            Url = e.Node.Url,
+            Description = e.Node.Description,
+            Languages = e.Node.Languages.Nodes
+        });
 
         return new PinnedRepositoriesFile
         {

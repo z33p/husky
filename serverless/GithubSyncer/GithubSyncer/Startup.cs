@@ -53,7 +53,7 @@ public class Startup
     {
         var githubAccessToken = Environment.GetEnvironmentVariable("GITHUB_ACCESS_TOKEN")!;
 
-        var appEnvironment = new AppEnvironment(githubAccessToken: githubAccessToken);
+        var appEnvironment = new AppEnvironment { GithubAccessToken = githubAccessToken };
 
         services.AddSingleton<AppEnvironment>(appEnvironment);
     }

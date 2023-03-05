@@ -1,11 +1,9 @@
 using GithubSyncer.Contracts.Shared;
 
-namespace GithubSyncer.Contracts
+namespace GithubSyncer.Contracts;
+
+public class ExternalRoutes : IExternalRoutes
 {
-    public class ExternalRoutes : IExternalRoutes
-    {
-        public string GithubApiGraphQL { get; } = "https://api.github.com/graphql";
+    public string GithubApiGraphQL { get; } = "https://api.github.com/graphql";
 
-
-    }
 }

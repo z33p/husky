@@ -1,42 +1,57 @@
-using System.Linq;
 using GithubSyncer.Contracts.External.Github.Responses.Shared;
 using GithubSyncer.Contracts.External.S3;
 
-namespace GithubSyncer.Contracts.External.Github.Responses
+namespace GithubSyncer.Contracts.External.Github.Responses;
+
+public class GetPinnedRepositoriesResponse
 {
-    public class GetPinnedRepositoriesResponse
+    public GetPinnedRepositoriesResponse(GithubUser<GithubRepository> user)
     {
-        public GithubUser<GithubRepository> User { get; set; }
+        User = user;
+    }
 
-        public class GithubUser<T>
+    public GithubUser<GithubRepository> User { get; set; }
+
+    public class GithubUser<T>
+    {
+        public PinnedItems<T> PinnedItems { get; set; }
+
+        public GithubUser(PinnedItems<T> pinnedItems)
         {
-            public PinnedItems<T> PinnedItems { get; set; }
+            PinnedItems = pinnedItems;
+        }
+    }
+
+    public class GithubRepository
+    {
+        public GithubRepository(string name, string url, string description, GithubNodes<GithubLanguage> languages)
+        {
+            Name = name;
+            Url = url;
+            Description = description;
+            Languages = languages;
         }
 
-        public class GithubRepository
+        public string Name { get; set; }
+
+        public string Url { get; set; }
+        public string Description { get; set; }
+
+        public GithubNodes<GithubLanguage> Languages { get; set; }
+    }
+
+    public PinnedRepositoriesFile ToS3FileFormat()
+    {
+        var repositories = this.User.PinnedItems.Edges.Select(e => new PinnedRepositoriesFile.GithubRepository(
+            e.Node.Name,
+            e.Node.Url,
+            e.Node.Description,
+            e.Node.Languages.Nodes
+        ));
+
+        return new PinnedRepositoriesFile
         {
-            public string Name { get; set; }
-
-            public string Url { get; set; }
-            public string Description { get; set; }
-
-            public GithubNodes<GithubLanguage> Languages { get; set; }
-        }
-
-        public PinnedRepositoriesFile ToS3FileFormat()
-        {
-            var repositories = this.User.PinnedItems.Edges.Select(e => new PinnedRepositoriesFile.GithubRepository
-            {
-                Name = e.Node.Name,
-                Url = e.Node.Url,
-                Description = e.Node.Description,
-                Languages = e.Node.Languages.Nodes,
-            });
-
-            return new PinnedRepositoriesFile
-            {
-                Data = repositories
-            };
-        }
+            Data = repositories
+        };
     }
 }

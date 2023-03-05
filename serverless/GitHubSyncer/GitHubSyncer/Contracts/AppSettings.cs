@@ -1,20 +1,33 @@
-namespace GithubSyncer.Contracts
+namespace GithubSyncer.Contracts;
+
+public class AppSettings
 {
-    public class AppSettings
+    public GithubSettings Github { get; set; }
+    public S3Buckets Buckets { get; set; }
+
+    public AppSettings(GithubSettings github, S3Buckets buckets)
     {
-        public GithubSettings Github { get; set; }
-        public S3Buckets Buckets { get; set; }
+        Github = github;
+        Buckets = buckets;
+    }
 
-        public class S3Buckets
+    public class S3Buckets
+    {
+        public string Husky { get; set; }
+
+        public S3Buckets(string husky)
         {
-            public string Husky { get; set; }
-
+            Husky = husky;
         }
+    }
 
-        public class GithubSettings
+    public class GithubSettings
+    {
+        public string Login { get; set; }
+
+        public GithubSettings(string login)
         {
-            public string Login { get; set; }
-
+            Login = login;
         }
     }
 }

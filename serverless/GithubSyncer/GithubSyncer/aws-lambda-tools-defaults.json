@@ -11,7 +11,7 @@
     "framework": "net6",
     "s3-prefix": "GithubSyncer/",
     "template": "serverless.template",
-    "template-parameters": "",
+    "template-parameters": "GithubAccessToken",
     "s3-bucket": "my-code-base",
     "stack-name": "Husky"
 }

@@ -7,6 +7,7 @@ import GoogleAnalyticsService from "../lib/services/google_analytics/google_anal
 import React from "react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import Maintance from "./maintance";
 
 interface AppContext {
   refNav?: MutableRefObject<HTMLDivElement | null>;
@@ -17,30 +18,32 @@ export const initialValue: AppContext = {};
 export const AppContext = React.createContext<AppContext>(initialValue);
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  const [supabaseClientState] = useState(() => createBrowserSupabaseClient())
+  return <Maintance />;
 
-  useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      GoogleAnalyticsService.pageview(url);
-    };
+  // const router = useRouter();
+  // const [supabaseClientState] = useState(() => createBrowserSupabaseClient())
 
-    router.events.on("routeChangeComplete", handleRouteChange);
+  // useEffect(() => {
+  //   const handleRouteChange = (url: string) => {
+  //     GoogleAnalyticsService.pageview(url);
+  //   };
 
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChange);
-    };
-  }, [router.events]);
+  //   router.events.on("routeChangeComplete", handleRouteChange);
 
-  return (
-    <SessionContextProvider
-      supabaseClient={supabaseClientState}
-      initialSession={pageProps.initialSession}
-    >
-      <AppContext.Provider value={initialValue}>
-        <Component {...pageProps} />
-      </AppContext.Provider>
-    </SessionContextProvider>
-  );
+  //   return () => {
+  //     router.events.off("routeChangeComplete", handleRouteChange);
+  //   };
+  // }, [router.events]);
+
+  // return (
+  //   <SessionContextProvider
+  //     supabaseClient={supabaseClientState}
+  //     initialSession={pageProps.initialSession}
+  //   >
+  //     <AppContext.Provider value={initialValue}>
+  //       <Component {...pageProps} />
+  //     </AppContext.Provider>
+  //   </SessionContextProvider>
+  // );
 }
 export default MyApp;

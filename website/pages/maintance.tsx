@@ -4,8 +4,8 @@ export default function Maintenance() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="p-10 bg-white rounded shadow-lg text-center">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">We'll be back soon!</h1>
-        <p className="text-gray-600 mb-4">Sorry for the inconvenience but we're performing some maintenance at the moment.</p>
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">We will be back soon!</h1>
+        <p className="text-gray-600 mb-4">Sorry for the inconvenience but we are performing some maintenance at the moment.</p>
         <div className="flex items-center justify-center mt-6">
           <Eye />
         </div>
